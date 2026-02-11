@@ -1,0 +1,166 @@
+# 🚀 REFERENCIA RÁPIDA
+
+## Primeros Pasos (Copy & Paste)
+
+```powershell
+# 1. Abre PowerShell en c:\Projects\Form
+
+# 2. Copia estos comandos
+
+cd c:\Projects\Form
+
+npm install
+
+npm start
+
+# 3. Abre en navegador:
+# http://localhost:3000
+```
+
+---
+
+## Archivos del Proyecto
+
+| Archivo | Qué es | Editar |
+|---------|--------|--------|
+| `index.html` | El formulario | Para agregar campos |
+| `styles.css` | Colores y diseño | Para personalizar |
+| `script.js` | Lógica del formulario | Para validaciones |
+| `server.js` | Servidor | Para configuración |
+| `.env` | Credenciales (crear) | Es importante |
+
+---
+
+## Comandos Útiles
+
+```powershell
+# Instalar dependencias
+npm install
+
+# Iniciar servidor
+npm start
+
+# Iniciar con auto-reinicio (require nodemon)
+npm run dev
+npm install --save-dev nodemon
+
+# Ver versión de Node
+node --version
+
+# Ver versión de npm
+npm --version
+```
+
+---
+
+## Personalización Rápida
+
+### Cambiar colores
+→ Editar `styles.css` línea 8
+
+### Cambiar título
+→ Editar `index.html` línea 28
+
+### Cambiar puerto
+→ Crear `.env` con `PORT=3001`
+
+---
+
+## Google Drive (Opcional)
+
+### Pasos
+1. [SETUP_WINDOWS.md](SETUP_WINDOWS.md) - Paso 4
+2. Crear archivo `.env`
+3. Reiniciar servidor
+4. ✓ Datos en Google Drive
+
+**Sin Google Drive**: Los datos se guardan en `licencias_data.json` (en tu PC)
+
+---
+
+## Documentación Rápida
+
+| Doc | Para |
+|-----|------|
+| `QUICKSTART.md` | Empezar en 5 min |
+| `SETUP_WINDOWS.md` | Instalación detallada |
+| `CUSTOMIZATION.md` | Cambiar colores/campos |
+| `README.md` | Manual completo |
+
+---
+
+## Problemas Comunes
+
+| Error | Solución |
+|-------|----------|
+| npm no existe | Instalar Node.js |
+| Puerto 3000 en uso | Cambiar a 3001 en .env |
+| Página en blanco | npm start ejecutándose |
+| Google Drive error | Es opcional, funciona sin él |
+
+---
+
+## Estructura de Carpetas
+
+```
+c:\Projects\Form\
+├── index.html              ← Formulario
+├── styles.css              ← Diseño
+├── script.js               ← Lógica
+├── server.js               ← Servidor
+├── googleDriveService.js   ← Google Drive
+├── package.json            ← Dependencias
+├── .env                    ← Config (crear)
+├── licencias_data.json     ← Datos (auto)
+└── README.md              ← Ayuda
+```
+
+---
+
+## URLs Importantes
+
+```
+Aplicación: http://localhost:3000
+
+Ver documentación:
+- INDEX.md (punto de inicio)
+- QUICKSTART.md (5 minutos)
+- README.md (todo)
+```
+
+---
+
+## Datos Guardados
+
+```
+Sin Google Drive:
+→ licencias_data.json
+
+Con Google Drive:
+→ Carpeta mensual en tu Google Drive
+→ Excel: Licencias - Febrero.xlsx (auto)
+→ + backup en licencias_data.json
+```
+
+---
+
+## Seguridad
+
+⚠️ **IMPORTANTE**
+- NO compartir archivo `.env`
+- NO subir `.env` a GitHub
+- Las credenciales de Google deben ser privadas
+
+✅ Archivo `.gitignore` ya está configurado
+
+---
+
+## Contacto/Soporte
+
+Ver sección de Solución de Problemas en README.md
+
+---
+
+**Versión**: 1.0.0  
+**Estado**: ✅ Listo para usar  
+**Última actualización**: Febrero 2026

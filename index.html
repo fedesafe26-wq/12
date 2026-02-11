@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Licencias - Instituto Educativo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Sistema de Control de Licencias</h1>
+            <p class="subtitle">Instituto Educativo</p>
+        </header>
+
+        <main class="main-content">
+            <form id="licenseForm" class="form">
+                <!-- SECCIÓN 1: DATOS PERSONALES -->
+                <section class="form-section">
+                    <h2 class="section-title">Datos Personales</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre">Nombre *</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido *</label>
+                            <input type="text" id="apellido" name="apellido" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dni">DNI *</label>
+                            <input type="text" id="dni" name="dni" placeholder="Ej: 12345678" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="celular">Número de Celular *</label>
+                            <input type="tel" id="celular" name="celular" placeholder="Ej: 1123456789" required>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 2: FECHAS DE LICENCIA -->
+                <section class="form-section">
+                    <h2 class="section-title">Fechas de Licencia</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fechaInicio">Fecha Inicio Licencia *</label>
+                            <input type="date" id="fechaInicio" name="fechaInicio" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaFin">Fecha Fin Licencia *</label>
+                            <input type="date" id="fechaFin" name="fechaFin" required>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 3: MOTIVO DE LA AUSENCIA -->
+                <section class="form-section">
+                    <h2 class="section-title">Motivo de la Ausencia</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="motivo">Motivo *</label>
+                            <textarea id="motivo" name="motivo" rows="3" placeholder="Describa el motivo de la ausencia..." required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="articulo">Número de Artículo (opcional)</label>
+                            <input type="text" id="articulo" name="articulo" placeholder="Ej: Artículo 12">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 4: FUNCIONES DE LAS QUE SE AUSENTARÁ -->
+                <section class="form-section">
+                    <h2 class="section-title">Funciones de las que se Ausentará</h2>
+                    <p class="section-description">Seleccione una o varias opciones</p>
+                    
+                    <div class="checkbox-group" id="funcionesContainer">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="docente_primer_año" data-type="docente_primer_año">
+                            <span>Docente de primer año Ed. Física</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="docente_segundo_año" data-type="docente_segundo_año">
+                            <span>Docente de segundo año Ed. Física</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="docente_tercer_año" data-type="docente_tercer_año">
+                            <span>Docente de tercer año Ed. Física</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="docente_cuarto_año" data-type="docente_cuarto_año">
+                            <span>Docente de cuarto año Ed. Física</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="docente_periodismo" data-type="docente_simple">
+                            <span>Docente de Periodismo deportivo</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="docente_natacion" data-type="docente_simple">
+                            <span>Docente del Taller de Natación</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="asistente_escolar" data-type="simple">
+                            <span>Asistente escolar</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="personal_alumnado" data-type="simple">
+                            <span>Personal de Alumnado</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="personal_gestion" data-type="simple">
+                            <span>Personal de Gestión</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="personal_secretaria" data-type="simple">
+                            <span>Personal de Secretaría</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="personal_biblioteca" data-type="simple">
+                            <span>Personal de Biblioteca</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="personal_informatica" data-type="simple">
+                            <span>Personal de Informática</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="personal_capacitacion" data-type="simple">
+                            <span>Personal de Capacitación e Investigación</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="funciones" value="otro_funcion" data-type="simple">
+                            <span>Otro</span>
+                        </label>
+                    </div>
+
+                    <!-- Campo de texto para "Otro" en funciones -->
+                    <div id="otroFuncionContainer" class="form-group full-width" style="display: none;">
+                        <label for="otroFuncion">Por favor especifique:</label>
+                        <input type="text" id="otroFuncion" name="otroFuncion" placeholder="Escriba aquí su función">
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 5: CAMPOS DINÁMICOS -->
+                <section id="dynamicSection" class="form-section" style="display: none;">
+                    <!-- Aquí se insertan dinámicamente los campos según las funciones seleccionadas -->
+                </section>
+
+                <!-- SECCIÓN 6: OBSERVACIONES GENERALES -->
+                <section class="form-section">
+                    <h2 class="section-title">Observaciones Generales</h2>
+                    
+                    <div class="form-group full-width">
+                        <label for="observacionesGenerales">Observaciones o Aclaraciones (opcional)</label>
+                        <textarea id="observacionesGenerales" name="observacionesGenerales" rows="4" placeholder="Escriba aquí cualquier aclaración o observación..."></textarea>
+                    </div>
+                </section>
+
+                <!-- BOTONES DE ACCIÓN -->
+                <section class="form-section form-actions">
+                    <button type="reset" class="btn btn-secondary">Limpiar Formulario</button>
+                    <button type="submit" class="btn btn-primary">Registrar Licencia</button>
+                </section>
+            </form>
+
+            <!-- MODAL DE CONFIRMACIÓN -->
+            <div id="successModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h2>¡Registrado Exitosamente!</h2>
+                    <p>Los datos de la licencia han sido guardados correctamente.</p>
+                    <button class="btn btn-primary" onclick="closeModal()">Aceptar</button>
+                </div>
+            </div>
+
+            <!-- SPINNER DE CARGA -->
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                <div class="spinner"></div>
+                <p>Guardando datos...</p>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2026 Sistema de Control de Licencias - Instituto Educativo</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

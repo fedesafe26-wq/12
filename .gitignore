@@ -1,0 +1,28 @@
+# Dependencias
+node_modules/
+npm-debug.log
+
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Datos y backups
+licencias_data.json
+*.xlsx
+temp_*.xlsx
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+.cache/
