@@ -105,6 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const funcionesSelect = document.getElementById('funcionesSelect');
     const noticeModal = document.getElementById('noticeModal');
     const noticeAcceptBtn = document.getElementById('noticeAcceptBtn');
+    const fechaInicioInput = document.getElementById('fechaInicio');
+    const fechaFinInput = document.getElementById('fechaFin');
     
     // Event listener para el desplegable
     funcionesSelect.addEventListener('change', handleFuncionChange);
@@ -127,6 +129,51 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('change', updateSectionStates);
 
     setupCollapsibleSections();
+
+    const today = getTodayISO();
+    const maxDate = getMaxFutureDateISO(9);
+
+    if (fechaInicioInput) {
+        fechaInicioInput.min = today;
+        fechaInicioInput.max = maxDate;
+
+        fechaInicioInput.addEventListener('change', () => {
+            const value = fechaInicioInput.value;
+            if (!value) return;
+
+            if (value < today) {
+                alert('No se puede ingresar una licencia con fecha anterior al dia actual.');
+                fechaInicioInput.value = '';
+                return;
+            }
+
+            if (value > maxDate) {
+                alert('No se puede ingresar licencias con mas de 9 dias de antelacion desde la fecha en que se ingresa a la app.');
+                fechaInicioInput.value = '';
+            }
+        });
+    }
+
+    if (fechaFinInput) {
+        fechaFinInput.min = today;
+        fechaFinInput.max = maxDate;
+
+        fechaFinInput.addEventListener('change', () => {
+            const value = fechaFinInput.value;
+            if (!value) return;
+
+            if (value < today) {
+                alert('No se puede ingresar una licencia con fecha anterior al dia actual.');
+                fechaFinInput.value = '';
+                return;
+            }
+
+            if (value > maxDate) {
+                alert('No se puede ingresar licencias con mas de 9 dias de antelacion desde la fecha en que se ingresa a la app.');
+                fechaFinInput.value = '';
+            }
+        });
+    }
 
     // Mostrar aviso inicial
     if (noticeModal) {
@@ -255,6 +302,19 @@ function getRequiredElements(container) {
     return Array.from(
         container.querySelectorAll('input[required], select[required], textarea[required]')
     );
+}
+
+function getTodayISO() {
+    const now = new Date();
+    const local = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return local.toISOString().slice(0, 10);
+}
+
+function getMaxFutureDateISO(daysAhead) {
+    const now = new Date();
+    const local = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    local.setDate(local.getDate() + daysAhead);
+    return local.toISOString().slice(0, 10);
 }
 
 function isElementFilled(element) {
@@ -589,6 +649,25 @@ function validateForm(formData) {
     // Validar fechas
     if (!formData.fechaInicio) errors.push('La fecha de inicio es requerida');
     if (!formData.fechaFin) errors.push('La fecha de fin es requerida');
+
+    const today = getTodayISO();
+    const maxDate = getMaxFutureDateISO(9);
+    if (formData.fechaInicio) {
+        if (formData.fechaInicio < today) {
+            errors.push('La fecha de inicio no puede ser anterior al dia actual');
+        }
+        if (formData.fechaInicio > maxDate) {
+            errors.push('La fecha de inicio no puede superar los 9 dias desde la fecha en que se ingresa a la app');
+        }
+    }
+    if (formData.fechaFin) {
+        if (formData.fechaFin < today) {
+            errors.push('La fecha de fin no puede ser anterior al dia actual');
+        }
+        if (formData.fechaFin > maxDate) {
+            errors.push('La fecha de fin no puede superar los 9 dias desde la fecha en que se ingresa a la app');
+        }
+    }
     
     if (formData.fechaInicio && formData.fechaFin) {
         const inicio = new Date(formData.fechaInicio);

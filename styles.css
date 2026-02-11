@@ -208,6 +208,14 @@ body.modal-open {
     border-color: var(--danger-color);
 }
 
+#otroFuncionContainer input {
+    width: 100%;
+}
+
+[id^="subespacio_otro_"] input {
+    width: 100%;
+}
+
 /* CHECKBOX GROUP */
 .checkbox-group {
     display: grid;
