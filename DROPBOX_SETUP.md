@@ -43,6 +43,53 @@ Formato del token:
 sl.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
+---
+
+## ✅ Opcion Recomendada (Produccion): Refresh Token
+
+El refresh token no vence. El servidor obtiene access tokens nuevos automaticamente.
+
+### Requisitos en Dropbox App Console
+
+En tu app, ve a **Permissions** y agrega:
+- `account_info.read`
+- `files.content.write`
+- `files.content.read`
+
+Luego ve a **Settings** y confirma que el tipo de acceso sea **Scoped access**.
+
+### Variables necesarias
+
+En `.env` o en Railway variables:
+
+```env
+DROPBOX_APP_KEY=tuAppKey
+DROPBOX_APP_SECRET=tuAppSecret
+DROPBOX_REFRESH_TOKEN=tuRefreshToken
+```
+
+Si usas refresh token, no necesitas `DROPBOX_ACCESS_TOKEN`.
+
+---
+
+## 🧰 Generar Refresh Token (Script)
+
+1. En Dropbox App Console, agrega esta URL en **Redirect URIs**:
+
+```
+http://localhost:53682/callback
+```
+
+2. En PowerShell:
+
+```powershell
+$env:DROPBOX_APP_KEY="tuAppKey"
+$env:DROPBOX_APP_SECRET="tuAppSecret"
+node generate-dropbox-refresh-token.js
+```
+
+3. Abre la URL que te muestra la consola, autoriza la app y vuelve a la consola para ver el `refresh_token`.
+
 ### Paso 4: Asignar Permisos
 
 En la misma página, ve a **"Permissions"** y asegúrate que estén:

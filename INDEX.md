@@ -312,18 +312,17 @@ Usuario           Servidor          Almacenamiento
 - **Node.js**: Runtime
 - **Express**: Servidor web
 - **ExcelJS**: Generación de Excel
-- **Google Sheets API**: Integración Google Drive
 
 ### Almacenamiento
 - **JSON**: Datos locales
-- **Excel**: Datos en Google Drive
-- **Google Drive**: Nube
+- **Excel**: Datos en Dropbox
+- **Dropbox**: Nube
 
 ### Características
 - ✅ Sin base de datos compleja
 - ✅ Fácil de instalar
 - ✅ Bajo consumo de recursos
-- ✅ Funciona offline (excepto Google Drive)
+- ✅ Funciona offline (excepto Dropbox)
 
 ---
 

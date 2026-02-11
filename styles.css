@@ -25,6 +25,10 @@ body {
     line-height: 1.6;
 }
 
+body.modal-open {
+    overflow: hidden;
+}
+
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -36,18 +40,35 @@ body {
 
 /* HEADER */
 .header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: white;
-    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: #f8f9fa;
+    color: #000000;
+    padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
-    text-align: center;
     box-shadow: var(--shadow-lg);
+}
+
+.header-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.header-text {
+    margin-left: auto;
+    text-align: right;
+    background-color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 6px;
 }
 
 .header h1 {
     font-size: 2.5em;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     font-weight: 700;
 }
 
@@ -87,6 +108,26 @@ body {
     font-weight: 600;
     display: flex;
     align-items: center;
+}
+
+.collapsible-title {
+    cursor: pointer;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.collapse-indicator {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    transition: transform 0.2s ease;
+}
+
+.form-section.collapsed .collapse-indicator {
+    transform: rotate(-90deg);
+}
+
+.form-section.collapsed .section-body {
+    display: none;
 }
 
 .section-title::before {
@@ -137,7 +178,7 @@ body {
 .form-group input,
 .form-group textarea,
 .form-group select {
-    padding: 12px;
+    padding: 8px;
     border: 2px solid var(--border-color);
     border-radius: 6px;
     font-size: 0.95em;
@@ -178,7 +219,7 @@ body {
 .checkbox-item {
     display: flex;
     align-items: center;
-    padding: 12px;
+    padding: 10px;
     background-color: #f8f9fa;
     border: 2px solid var(--border-color);
     border-radius: 6px;
@@ -193,8 +234,8 @@ body {
 }
 
 .checkbox-item input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
     margin-right: 10px;
     accent-color: var(--secondary-color);
@@ -236,7 +277,7 @@ body {
 }
 
 .select-item select {
-    padding: 10px;
+    padding: 6px;
     border: 2px solid var(--border-color);
     border-radius: 6px;
     font-size: 0.95em;
@@ -246,6 +287,90 @@ body {
     transition: all 0.3s ease;
 }
 
+.comision-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 8px 10px 10px;
+    max-height: 180px;
+    overflow-y: auto;
+    border-top: 1px solid var(--border-color);
+    background-color: white;
+}
+.comision-ids {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 8px 0 0;
+}
+
+.comision-id-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.comision-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95em;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 4px;
+}
+
+.comision-item:hover {
+    background-color: #f8f9fa;
+}
+
+.comision-item input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--secondary-color);
+}
+
+.comision-dropdown {
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+}
+
+.comision-dropdown[open] {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.comision-dropdown summary {
+    list-style: none;
+    padding: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    color: var(--text-color);
+    background-color: #f8f9fa;
+}
+
+.comision-dropdown[open] summary {
+    background-color: white;
+}
+
+.comision-dropdown summary::-webkit-details-marker {
+    display: none;
+}
+
+.comision-dropdown summary::after {
+    content: '▾';
+    float: right;
+    color: #7f8c8d;
+}
+
+.comision-dropdown[open] summary::after {
+    content: '▴';
+}
+
 .select-item select:focus {
     outline: none;
     border-color: var(--secondary-color);
@@ -253,7 +378,7 @@ body {
 }
 
 .select-item input[type="text"] {
-    padding: 10px;
+    padding: 6px;
     border: 2px solid var(--border-color);
     border-radius: 6px;
     font-size: 0.95em;
@@ -274,7 +399,7 @@ body {
 
 /* BUTTONS */
 .btn {
-    padding: 12px 30px;
+    padding: 10px 24px;
     border: none;
     border-radius: 6px;
     font-size: 1em;

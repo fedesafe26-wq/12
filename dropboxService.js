@@ -17,15 +17,32 @@ let isAuthenticated = false;
 async function initializeAuth() {
     try {
         const accessToken = process.env.DROPBOX_ACCESS_TOKEN;
+        const refreshToken = process.env.DROPBOX_REFRESH_TOKEN;
+        const appKey = process.env.DROPBOX_APP_KEY;
+        const appSecret = process.env.DROPBOX_APP_SECRET;
 
-        if (!accessToken) {
+        if (!accessToken && !refreshToken) {
             console.log('⚠️  Token de Dropbox no configurado');
             console.log('   Guardando datos solo localmente');
             return false;
         }
 
         // Crear cliente de Dropbox
-        dropboxClient = new Dropbox({ accessToken });
+        if (refreshToken) {
+            if (!appKey || !appSecret) {
+                console.log('⚠️  Faltan DROPBOX_APP_KEY o DROPBOX_APP_SECRET');
+                console.log('   Guardando datos solo localmente');
+                return false;
+            }
+
+            dropboxClient = new Dropbox({
+                refreshToken,
+                clientId: appKey,
+                clientSecret: appSecret
+            });
+        } else {
+            dropboxClient = new Dropbox({ accessToken });
+        }
 
         // Verificar que funciona
         const user = await dropboxClient.usersGetCurrentAccount();

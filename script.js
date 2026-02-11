@@ -102,18 +102,17 @@ const TIPOS_FUNCIONES = {
 // INICIALIZACIÓN
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('licenseForm');
-    const checkboxes = document.querySelectorAll('input[name="funciones"]');
-    const otroCheckbox = document.querySelector('input[value="otro_funcion"]');
+    const funcionesSelect = document.getElementById('funcionesSelect');
+    const noticeModal = document.getElementById('noticeModal');
+    const noticeAcceptBtn = document.getElementById('noticeAcceptBtn');
     
-    // Event listeners para checkboxes
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', handleFuncionChange);
-    });
+    // Event listener para el desplegable
+    funcionesSelect.addEventListener('change', handleFuncionChange);
 
     // Event listener para mostrar/ocultar campo "Otro"
-    otroCheckbox.addEventListener('change', () => {
+    funcionesSelect.addEventListener('change', () => {
         const otroContainer = document.getElementById('otroFuncionContainer');
-        if (otroCheckbox.checked) {
+        if (funcionesSelect.value === 'otro_funcion') {
             otroContainer.style.display = 'block';
             otroContainer.classList.add('fade-in');
         } else {
@@ -123,17 +122,163 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listener para el formulario
     form.addEventListener('submit', handleFormSubmit);
+
+    form.addEventListener('input', updateSectionStates);
+    form.addEventListener('change', updateSectionStates);
+
+    setupCollapsibleSections();
+
+    // Mostrar aviso inicial
+    if (noticeModal) {
+        noticeModal.style.display = 'flex';
+        document.body.classList.add('modal-open');
+    }
+
+    if (noticeAcceptBtn) {
+        noticeAcceptBtn.addEventListener('click', () => {
+            if (noticeModal) {
+                noticeModal.style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }
+        });
+    }
 });
+
+function setupCollapsibleSections() {
+    const sections = document.querySelectorAll('.form-section[data-collapsible="true"]');
+
+    sections.forEach(section => {
+        const title = section.querySelector('.collapsible-title');
+        if (!title) return;
+
+        title.addEventListener('click', () => {
+            toggleSection(section);
+        });
+
+        title.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleSection(section);
+            }
+        });
+    });
+
+    sections.forEach(section => setSectionCollapsed(section, true));
+    updateSectionStates();
+}
+
+function toggleSection(section) {
+    const isCollapsed = section.classList.contains('collapsed');
+    setSectionCollapsed(section, !isCollapsed);
+}
+
+function setSectionCollapsed(section, collapsed) {
+    section.classList.toggle('collapsed', collapsed);
+    const title = section.querySelector('.collapsible-title');
+    if (title) {
+        title.setAttribute('aria-expanded', (!collapsed).toString());
+    }
+}
+
+function updateSectionStates() {
+    const sections = document.querySelectorAll('.form-section[data-collapsible="true"]');
+    let firstIncompleteOpened = false;
+
+    sections.forEach(section => {
+        const complete = isSectionComplete(section);
+        if (complete) {
+            setSectionCollapsed(section, true);
+        } else if (!firstIncompleteOpened) {
+            setSectionCollapsed(section, false);
+            firstIncompleteOpened = true;
+        }
+    });
+}
+
+function isSectionComplete(section) {
+    const body = section.querySelector('.section-body');
+    if (!body) return false;
+
+    if (body.contains(document.activeElement)) {
+        return false;
+    }
+
+    const requiredElements = getRequiredElements(body);
+    if (requiredElements.length === 0) return false;
+
+    const requiredFilled = requiredElements.every(isElementFilled);
+    if (!requiredFilled) return false;
+
+    if (section.id === 'funcionesSection') {
+        const dynamicSection = document.getElementById('dynamicSection');
+        if (dynamicSection && dynamicSection.style.display !== 'none') {
+            const dynamicRequired = getRequiredElements(dynamicSection);
+            if (dynamicRequired.length > 0 && !dynamicRequired.every(isElementFilled)) {
+                return false;
+            }
+
+            const comisionChecked = dynamicSection.querySelectorAll(
+                'input[type="checkbox"][name^="comision_"]:checked'
+            );
+            if (comisionChecked.length === 0) return false;
+
+            const subespacioSelects = dynamicSection.querySelectorAll(
+                'select[name^="subespacio_"]'
+            );
+            for (const select of subespacioSelects) {
+                if (select.value === 'Otro') {
+                    const index = select.name.split('_')[1];
+                    const otroInput = dynamicSection.querySelector(
+                        `input[name="subespacio_otro_${index}"]`
+                    );
+                    if (!otroInput || !otroInput.value.trim()) return false;
+                }
+            }
+
+            const comisionOtro = dynamicSection.querySelectorAll(
+                'input[type="checkbox"][name^="comision_"][value="Otro"]:checked'
+            );
+            if (comisionOtro.length > 0) {
+                const index = comisionOtro[0].name.split('_')[1];
+                const otroInput = dynamicSection.querySelector(
+                    `input[name="comision_otro_${index}"]`
+                );
+                if (!otroInput || !otroInput.value.trim()) return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+function getRequiredElements(container) {
+    return Array.from(
+        container.querySelectorAll('input[required], select[required], textarea[required]')
+    );
+}
+
+function isElementFilled(element) {
+    if (element.type === 'checkbox' || element.type === 'radio') {
+        return element.checked;
+    }
+
+    if (element.tagName === 'SELECT') {
+        return Boolean(element.value);
+    }
+
+    return Boolean(element.value && element.value.trim());
+}
 
 // Manejo de cambio de funciones
 function handleFuncionChange() {
-    const checkboxes = document.querySelectorAll('input[name="funciones"]:checked');
+    const funcionesSelect = document.getElementById('funcionesSelect');
+    const selectedOption = funcionesSelect.options[funcionesSelect.selectedIndex];
     const dynamicSection = document.getElementById('dynamicSection');
     
     // Limpiar sección dinámica
     dynamicSection.innerHTML = '';
     
-    if (checkboxes.length === 0) {
+    if (!funcionesSelect.value) {
         dynamicSection.style.display = 'none';
         return;
     }
@@ -141,33 +286,31 @@ function handleFuncionChange() {
     dynamicSection.style.display = 'block';
 
     // Procesar cada función seleccionada
-    checkboxes.forEach((checkbox, index) => {
-        const value = checkbox.value;
-        const type = checkbox.getAttribute('data-type');
+    const value = funcionesSelect.value;
+    const type = selectedOption ? selectedOption.getAttribute('data-type') : '';
+    const functionLabel = selectedOption ? selectedOption.textContent.trim() : value;
 
-        if (type === 'docente_primer_año' || type === 'docente_segundo_año' || 
-            type === 'docente_tercer_año' || type === 'docente_cuarto_año') {
-            
-            createDocenteFields(dynamicSection, value, index);
-        }
-        // Para docentes simples y otros, solo agregar observaciones en la última sección
-    });
+    if (type === 'docente_primer_año' || type === 'docente_segundo_año' || 
+        type === 'docente_tercer_año' || type === 'docente_cuarto_año') {
+        createDocenteFields(dynamicSection, value, 0, functionLabel);
+    }
+    // Para docentes simples y otros, solo agregar observaciones en la última sección
 
     // Agregar observaciones solo una vez al final
-    if (checkboxes.length > 0) {
+    if (funcionesSelect.value) {
         addObservationsField(dynamicSection);
     }
+
+    updateSectionStates();
 }
 
 // Crear campos para docentes con subespacios y comisiones
-function createDocenteFields(container, docenteType, index) {
+function createDocenteFields(container, docenteType, index, functionLabel) {
     const fieldset = document.createElement('fieldset');
     fieldset.className = 'select-group fade-in';
     fieldset.style.marginTop = '20px';
     
-    // Obtener el nombre de la función
-    const checkbox = document.querySelector(`input[value="${docenteType}"]`);
-    const functionName = checkbox ? checkbox.parentElement.textContent.trim() : docenteType;
+    const functionName = functionLabel || docenteType;
     
     // Título
     const legend = document.createElement('legend');
@@ -258,48 +401,57 @@ function createDocenteFields(container, docenteType, index) {
     comisionDiv.className = 'select-item';
     
     const comisionLabel = document.createElement('label');
-    comisionLabel.htmlFor = `comision_${index}`;
     comisionLabel.textContent = 'Comisión *';
     comisionDiv.appendChild(comisionLabel);
 
-    const comisionSelect = document.createElement('select');
-    comisionSelect.id = `comision_${index}`;
-    comisionSelect.name = `comision_${index}`;
-    comisionSelect.className = 'comision-select';
-    comisionSelect.setAttribute('data-docente', docenteType);
-    comisionSelect.required = true;
+    const comisionDropdown = document.createElement('details');
+    comisionDropdown.className = 'comision-dropdown';
+    comisionDropdown.setAttribute('data-docente', docenteType);
 
-    const comisionPlaceholder = document.createElement('option');
-    comisionPlaceholder.value = '';
-    comisionPlaceholder.textContent = 'Seleccione una comisión';
-    comisionSelect.appendChild(comisionPlaceholder);
+    const comisionSummary = document.createElement('summary');
+    comisionSummary.textContent = 'Seleccione comisiones';
+    comisionDropdown.appendChild(comisionSummary);
+
+    const comisionList = document.createElement('div');
+    comisionList.className = 'comision-list';
 
     const comisiones = COMISIONES[docenteType] || [];
     comisiones.forEach(comision => {
-        const option = document.createElement('option');
-        option.value = comision;
-        option.textContent = comision;
-        comisionSelect.appendChild(option);
+        const itemLabel = document.createElement('label');
+        itemLabel.className = 'comision-item';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = `comision_${index}`;
+        checkbox.value = comision;
+
+        const text = document.createElement('span');
+        text.textContent = comision;
+
+        itemLabel.appendChild(checkbox);
+        itemLabel.appendChild(text);
+        comisionList.appendChild(itemLabel);
     });
 
-    // Escuchar cambios en el select de comisiones
-    comisionSelect.addEventListener('change', (e) => {
-        if (e.target.value === 'Otro') {
-            const otroContainer = document.getElementById(`comision_otro_${index}`);
-            if (otroContainer) {
-                otroContainer.style.display = 'block';
-            }
-        } else {
-            const otroContainer = document.getElementById(`comision_otro_${index}`);
-            if (otroContainer) {
-                otroContainer.style.display = 'none';
-                otroContainer.querySelector('input').value = '';
-            }
-        }
-    });
+    comisionDropdown.appendChild(comisionList);
 
-    comisionDiv.appendChild(comisionSelect);
+    comisionDiv.appendChild(comisionDropdown);
     selectsContainer.appendChild(comisionDiv);
+
+    // IDs por comisión seleccionada
+    const comisionIdsDiv = document.createElement('div');
+    comisionIdsDiv.className = 'select-item';
+    comisionIdsDiv.style.gridColumn = '1 / -1';
+
+    const comisionIdsLabel = document.createElement('label');
+    comisionIdsLabel.textContent = 'ID de la Comisión (1-7 dígitos) *';
+    comisionIdsDiv.appendChild(comisionIdsLabel);
+
+    const comisionIdsContainer = document.createElement('div');
+    comisionIdsContainer.className = 'comision-ids';
+    comisionIdsDiv.appendChild(comisionIdsContainer);
+
+    selectsContainer.appendChild(comisionIdsDiv);
 
     // Campo "Otro" para comisión
     const otroComisionDiv = document.createElement('div');
@@ -322,6 +474,35 @@ function createDocenteFields(container, docenteType, index) {
 
     selectsContainer.appendChild(otroComisionDiv);
 
+    // Escuchar cambios en los checkboxes de comisiones
+    comisionDropdown.addEventListener('change', () => {
+        const selectedValues = Array.from(
+            comisionDropdown.querySelectorAll('input[type="checkbox"]:checked')
+        ).map(input => input.value);
+
+        comisionSummary.textContent = selectedValues.length > 0
+            ? selectedValues.join(', ')
+            : 'Seleccione comisiones';
+
+        const otroContainer = document.getElementById(`comision_otro_${index}`);
+        if (selectedValues.includes('Otro')) {
+            if (otroContainer) {
+                otroContainer.style.display = 'block';
+            }
+        } else if (otroContainer) {
+            otroContainer.style.display = 'none';
+            otroComisionInput.value = '';
+        }
+
+        updateComisionIdFields(index, comisionDropdown, comisionIdsContainer, otroComisionInput);
+    });
+
+    otroComisionInput.addEventListener('input', () => {
+        updateComisionIdFields(index, comisionDropdown, comisionIdsContainer, otroComisionInput);
+    });
+
+    updateComisionIdFields(index, comisionDropdown, comisionIdsContainer, otroComisionInput);
+
     // Observaciones
     const observacionesDiv = document.createElement('div');
     observacionesDiv.className = 'select-item';
@@ -343,6 +524,49 @@ function createDocenteFields(container, docenteType, index) {
 
     fieldset.appendChild(selectsContainer);
     container.appendChild(fieldset);
+}
+
+function updateComisionIdFields(index, comisionDropdown, comisionIdsContainer, otroComisionInput) {
+    const selectedValues = Array.from(
+        comisionDropdown.querySelectorAll('input[type="checkbox"]:checked')
+    ).map(input => input.value);
+
+    const existingValues = new Map(
+        Array.from(comisionIdsContainer.querySelectorAll('input')).map(input => [
+            input.dataset.comision,
+            input.value
+        ])
+    );
+
+    comisionIdsContainer.innerHTML = '';
+
+    selectedValues.forEach(value => {
+        const displayLabel = value === 'Otro'
+            ? (otroComisionInput.value.trim() || 'Otro')
+            : value;
+
+        const item = document.createElement('div');
+        item.className = 'comision-id-item';
+
+        const label = document.createElement('label');
+        label.textContent = `ID Comisión ${displayLabel} *`;
+        item.appendChild(label);
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = `comision_id_${index}[]`;
+        input.placeholder = 'Ingrese ID (1-7 dígitos)';
+        input.inputMode = 'numeric';
+        input.maxLength = 7;
+        input.pattern = '\\d{1,7}';
+        input.required = true;
+        input.dataset.comision = value;
+        input.dataset.comisionLabel = displayLabel;
+        input.value = existingValues.get(value) || '';
+        item.appendChild(input);
+
+        comisionIdsContainer.appendChild(item);
+    });
 }
 
 // Agregar campo de observaciones general
@@ -377,45 +601,70 @@ function validateForm(formData) {
     // Validar motivo
     if (!formData.motivo.trim()) errors.push('El motivo de la ausencia es requerido');
 
+    // Validar articulo
+    if (!formData.articulo || !formData.articulo.trim()) {
+        errors.push('El número de artículo es requerido');
+    }
+
     // Validar funciones
-    const checkboxes = document.querySelectorAll('input[name="funciones"]:checked');
-    if (checkboxes.length === 0) {
+    const funcionesSelect = document.getElementById('funcionesSelect');
+    if (!funcionesSelect.value) {
         errors.push('Debe seleccionar al menos una función');
     }
 
     // Validar campos dinámicos para docentes
-    checkboxes.forEach((checkbox, index) => {
-        const type = checkbox.getAttribute('data-type');
+    if (funcionesSelect.value) {
+        const selectedOption = funcionesSelect.options[funcionesSelect.selectedIndex];
+        const type = selectedOption ? selectedOption.getAttribute('data-type') : '';
+        const index = 0;
+
         if (type === 'docente_primer_año' || type === 'docente_segundo_año' || 
             type === 'docente_tercer_año' || type === 'docente_cuarto_año') {
             
             const subespacioSelect = document.querySelector(`select[name="subespacio_${index}"]`);
-            const comisionSelect = document.querySelector(`select[name="comision_${index}"]`);
+            const comisionCheckboxes = document.querySelectorAll(
+                `input[name="comision_${index}"]:checked`
+            );
+            const comisionIdInputs = document.querySelectorAll(`input[name="comision_id_${index}[]"]`);
             
             if (subespacioSelect && !subespacioSelect.value) {
-                errors.push(`El subespacio para la función ${index + 1} es requerido`);
+                errors.push('El subespacio para la función seleccionada es requerido');
             }
             
-            if (comisionSelect && !comisionSelect.value) {
-                errors.push(`La comisión para la función ${index + 1} es requerida`);
+            if (comisionCheckboxes.length === 0) {
+                errors.push('Debe seleccionar al menos una comisión');
             }
+
+            if (comisionIdInputs.length !== comisionCheckboxes.length) {
+                errors.push('Debe ingresar un ID por cada comisión seleccionada');
+            }
+
+            const idRegex = /^\d{1,7}$/;
+            comisionIdInputs.forEach(input => {
+                const value = input.value.trim();
+                const label = input.dataset.comisionLabel || 'la comisión';
+                if (!idRegex.test(value)) {
+                    errors.push(`El ID de ${label} debe tener hasta 7 dígitos`);
+                }
+            });
 
             // Validar campos "Otro"
             if (subespacioSelect && subespacioSelect.value === 'Otro') {
                 const otroInput = document.querySelector(`input[name="subespacio_otro_${index}"]`);
                 if (!otroInput || !otroInput.value.trim()) {
-                    errors.push(`Debe especificar el subespacio para la función ${index + 1}`);
+                    errors.push('Debe especificar el subespacio para la función seleccionada');
                 }
             }
 
-            if (comisionSelect && comisionSelect.value === 'Otro') {
+            const selectedValues = Array.from(comisionCheckboxes).map(input => input.value);
+            if (selectedValues.includes('Otro')) {
                 const otroInput = document.querySelector(`input[name="comision_otro_${index}"]`);
                 if (!otroInput || !otroInput.value.trim()) {
-                    errors.push(`Debe especificar la comisión para la función ${index + 1}`);
+                    errors.push('Debe especificar la comisión para la función seleccionada');
                 }
             }
         }
-    });
+    }
 
     return errors;
 }
@@ -451,36 +700,51 @@ async function handleFormSubmit(e) {
     };
 
     // Recopilar funciones seleccionadas
-    const funcionesCheckboxes = document.querySelectorAll('input[name="funciones"]:checked');
-    funcionesCheckboxes.forEach((checkbox, index) => {
+    const funcionesSelect = document.getElementById('funcionesSelect');
+    if (funcionesSelect.value) {
+        const selectedOption = funcionesSelect.options[funcionesSelect.selectedIndex];
         const funcion = {
-            tipo: checkbox.value,
-            label: checkbox.parentElement.textContent.trim(),
-            tipoFuncion: checkbox.getAttribute('data-type')
+            tipo: funcionesSelect.value,
+            label: selectedOption ? selectedOption.textContent.trim() : funcionesSelect.value,
+            tipoFuncion: selectedOption ? selectedOption.getAttribute('data-type') : ''
         };
 
         // Para docentes, agregar subespacios y comisiones
-        const type = checkbox.getAttribute('data-type');
+        const type = funcion.tipoFuncion;
+        const index = 0;
         if (type === 'docente_primer_año' || type === 'docente_segundo_año' || 
             type === 'docente_tercer_año' || type === 'docente_cuarto_año') {
             
             const subespacioSelect = document.querySelector(`select[name="subespacio_${index}"]`);
-            const comisionSelect = document.querySelector(`select[name="comision_${index}"]`);
+            const comisionCheckboxes = document.querySelectorAll(
+                `input[name="comision_${index}"]:checked`
+            );
+            const comisionIdInputs = document.querySelectorAll(`input[name="comision_id_${index}[]"]`);
             const observacionesTextarea = document.querySelector(`textarea[name="observaciones_${index}"]`);
+
+            const comisionValues = Array.from(comisionCheckboxes).map(input => input.value);
 
             funcion.subespacio = subespacioSelect?.value === 'Otro' 
                 ? document.querySelector(`input[name="subespacio_otro_${index}"]`)?.value
                 : subespacioSelect?.value;
             
-            funcion.comision = comisionSelect?.value === 'Otro'
-                ? document.querySelector(`input[name="comision_otro_${index}"]`)?.value
-                : comisionSelect?.value;
+            if (comisionValues.includes('Otro')) {
+                const otroValor = document.querySelector(`input[name="comision_otro_${index}"]`)?.value;
+                funcion.comision = comisionValues.map(value => (value === 'Otro' ? otroValor : value));
+            } else {
+                funcion.comision = comisionValues;
+            }
+
+            funcion.comisionIds = Array.from(comisionIdInputs).map(input => ({
+                comision: input.dataset.comisionLabel || input.dataset.comision,
+                id: input.value.trim()
+            }));
             
             funcion.observaciones = observacionesTextarea?.value;
         }
 
         data.funciones.push(funcion);
-    });
+    }
 
     // Validar
     const errors = validateForm(data);
