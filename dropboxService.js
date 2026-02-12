@@ -269,12 +269,116 @@ async function generateLocalExcel(licenseData) {
 }
 
 /**
+ * Actualizar Excel indice unico (agrega una fila por licencia)
+ */
+async function updateIndexExcel(licenseData) {
+    try {
+        const exportsDir = path.join(__dirname, 'exports');
+        if (!fs.existsSync(exportsDir)) {
+            fs.mkdirSync(exportsDir, { recursive: true });
+        }
+
+        const filePath = path.join(exportsDir, 'Indice_Licencias.xlsx');
+        const workbook = new ExcelJS.Workbook();
+        let worksheet = null;
+
+        if (fs.existsSync(filePath)) {
+            await workbook.xlsx.readFile(filePath);
+            worksheet = workbook.getWorksheet('Indice') || workbook.worksheets[0];
+        }
+
+        if (!worksheet) {
+            worksheet = workbook.addWorksheet('Indice');
+        }
+
+        if (worksheet.rowCount === 0) {
+            worksheet.addRow([
+                'Fecha de carga',
+                'Nombre',
+                'Apellido',
+                'DNI',
+                'Fecha inicio',
+                'Fecha fin'
+            ]);
+            worksheet.getRow(1).font = { bold: true };
+
+            worksheet.columns = [
+                { width: 15 },
+                { width: 20 },
+                { width: 20 },
+                { width: 15 },
+                { width: 15 },
+                { width: 15 }
+            ];
+        }
+
+        const now = new Date();
+        const fechaCarga = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+        worksheet.addRow([
+            fechaCarga,
+            licenseData.nombre,
+            licenseData.apellido,
+            licenseData.dni,
+            licenseData.fechaInicio,
+            licenseData.fechaFin
+        ]);
+
+        await workbook.xlsx.writeFile(filePath);
+        console.log('✓ Indice actualizado en Excel');
+
+        return filePath;
+    } catch (error) {
+        console.error('Error al actualizar indice Excel:', error.message);
+        throw error;
+    }
+}
+
+/**
+ * Subir indice Excel a Dropbox
+ */
+async function uploadIndexToDropbox(filePath) {
+    try {
+        if (!isAuthenticated) return null;
+
+        const folderBasePath = process.env.DROPBOX_FOLDER_PATH || '/Licencias Instituto';
+        const fileName = path.basename(filePath);
+        const dropboxFilePath = `${folderBasePath}/${fileName}`;
+
+        try {
+            await dropboxClient.filesCreateFolderV2({
+                path: folderBasePath
+            });
+        } catch (error) {
+            if (error.status !== 409) {
+                throw error;
+            }
+        }
+
+        const fileContent = fs.readFileSync(filePath);
+        const response = await dropboxClient.filesUpload({
+            path: dropboxFilePath,
+            contents: fileContent,
+            mode: { '.tag': 'overwrite' }
+        });
+
+        console.log(`✓ Indice subido a Dropbox: ${dropboxFilePath}`);
+        return response.result.id;
+    } catch (error) {
+        console.error('Error al subir indice a Dropbox:', error.message);
+        return null;
+    }
+}
+
+/**
  * Guardar licencia en Dropbox + local
  */
 async function saveLicenseToDropbox(licenseData) {
     try {
         // Generar Excel local con estructura de carpetas
         const localPath = await generateLocalExcel(licenseData);
+
+        // Actualizar indice Excel unico
+        const indexPath = await updateIndexExcel(licenseData);
 
         // Intentar subir a Dropbox
         let dropboxSynced = false;
@@ -283,6 +387,8 @@ async function saveLicenseToDropbox(licenseData) {
             if (uploaded) {
                 dropboxSynced = true;
             }
+
+            await uploadIndexToDropbox(indexPath);
         }
 
         // Guardar en JSON (backup)
@@ -364,5 +470,7 @@ module.exports = {
     saveLicenseToDropbox,
     initializeAuth,
     uploadExcelToDropbox,
-    generateLocalExcel
+    generateLocalExcel,
+    updateIndexExcel,
+    uploadIndexToDropbox
 };
