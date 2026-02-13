@@ -42,58 +42,63 @@
         <!-- SIDEBAR -->
         <aside class="w-80 bg-white dark:bg-slate-900 border-r border-primary/10 flex flex-col shrink-0">
             <div class="p-6 border-b border-primary/5">
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3 justify-between">
                     <img src="882f78e51403fb66a620edda9eb68c16.jpg" alt="ISEF" class="w-12 h-12 rounded-lg object-cover">
                     <div class="text-center flex-1">
                         <h1 class="font-bold text-base leading-tight text-slate-900 dark:text-white">Sistema de Registro</h1>
                         <p class="text-sm text-primary font-semibold">Licencias 2026</p>
                     </div>
+                    <button id="sidebarToggle" class="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Toggle menu">
+                        <span class="material-icons-outlined text-slate-600 dark:text-slate-400">menu</span>
+                    </button>
                 </div>
             </div>
             
             <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="sidebarNav">
-                <div class="relative">
-                    <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#datosPersonales" data-section="datosPersonales">
-                        <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
-                            <span class="material-icons-outlined text-xl">person</span>
-                        </div>
-                        <div class="flex-1">
-                            <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">1. Datos Personales</span>
-                        </div>
-                    </a>
-                </div>
-                
-                <div class="relative">
-                    <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#fechasMotivo" data-section="fechasMotivo">
-                        <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
-                            <span class="material-icons-outlined text-xl">calendar_today</span>
-                        </div>
-                        <div class="flex-1">
-                            <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">2. Fechas y Motivo</span>
-                        </div>
-                    </a>
-                </div>
-                
-                <div class="relative">
-                    <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#funciones" data-section="funciones">
-                        <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
-                            <span class="material-icons-outlined text-xl">work</span>
-                        </div>
-                        <div class="flex-1">
-                            <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">3. Funciones</span>
-                        </div>
-                    </a>
-                </div>
-                
-                <div class="relative">
-                    <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#observaciones" data-section="observaciones">
-                        <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
-                            <span class="material-icons-outlined text-xl">description</span>
-                        </div>
-                        <div class="flex-1">
-                            <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">4. Observaciones</span>
-                        </div>
-                    </a>
+                <div class="nav-container">
+                    <div class="relative">
+                        <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#datosPersonales" data-section="datosPersonales">
+                            <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
+                                <span class="material-icons-outlined text-xl">person</span>
+                            </div>
+                            <div class="flex-1">
+                                <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">1. Datos Personales</span>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="relative">
+                        <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#fechasMotivo" data-section="fechasMotivo">
+                            <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
+                                <span class="material-icons-outlined text-xl">calendar_today</span>
+                            </div>
+                            <div class="flex-1">
+                                <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">2. Fechas y Motivo</span>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="relative">
+                        <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#funciones" data-section="funciones">
+                            <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
+                                <span class="material-icons-outlined text-xl">work</span>
+                            </div>
+                            <div class="flex-1">
+                                <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">3. Funciones</span>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="relative">
+                        <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#observaciones" data-section="observaciones">
+                            <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
+                                <span class="material-icons-outlined text-xl">description</span>
+                            </div>
+                            <div class="flex-1">
+                                <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">4. Observaciones</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </nav>
             

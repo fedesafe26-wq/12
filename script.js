@@ -1098,3 +1098,59 @@ if (document.readyState === 'loading') {
 } else {
     initScrollSpy();
 }
+
+// Menú móvil
+function initMobileMenu() {
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const nav = document.querySelector('aside nav');
+    const navContainer = document.querySelector('aside nav .nav-container');
+    
+    if (!toggleBtn || !nav || !navContainer) return;
+    
+    // Crear botón de cerrar dentro del nav container
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'absolute top-2 right-2 p-2 text-slate-500 hover:text-slate-700 bg-white rounded-full shadow-md z-10';
+    closeBtn.innerHTML = '<span class="material-icons-outlined">close</span>';
+    
+    // Toggle del menú
+    toggleBtn.addEventListener('click', () => {
+        nav.classList.add('mobile-show');
+        if (!navContainer.contains(closeBtn)) {
+            navContainer.style.position = 'relative';
+            navContainer.insertBefore(closeBtn, navContainer.firstChild);
+        }
+    });
+    
+    // Cerrar menú
+    const closeMenu = () => {
+        nav.classList.remove('mobile-show');
+    };
+    
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeMenu();
+    });
+    
+    // Cerrar al hacer click en un link
+    const navLinks = nav.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            // Esperar un poco antes de cerrar para que se vea la animación
+            setTimeout(closeMenu, 100);
+        });
+    });
+    
+    // Cerrar al hacer click en el overlay (el nav mismo)
+    nav.addEventListener('click', (e) => {
+        if (e.target === nav) {
+            closeMenu();
+        }
+    });
+}
+
+// Inicializar menú móvil cuando el DOM esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileMenu);
+} else {
+    initMobileMenu();
+}

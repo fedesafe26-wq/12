@@ -537,6 +537,13 @@ body.modal-open {
     background: #94a3b8;
 }
 
+/* Nav container para desktop y mobile */
+.nav-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
 /* Responsive para sidebar */
 @media (max-width: 1024px) {
     aside {
@@ -547,31 +554,199 @@ body.modal-open {
 @media (max-width: 768px) {
     .flex.h-screen {
         flex-direction: column;
+        height: auto;
+        min-height: 100vh;
     }
+    
     aside {
         width: 100% !important;
         height: auto;
         border-right: none;
         border-bottom: 1px solid rgba(18, 88, 226, 0.1);
     }
-    .modal-content {
-        padding: 30px 20px;
+    
+    aside .p-6 {
+        padding: 1rem !important;
     }
+    
+    aside nav {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        padding: 0;
+        overflow-y: auto;
+        animation: fadeIn 0.2s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    aside nav.mobile-show {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    aside nav .nav-container {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        max-width: 90%;
+        width: 400px;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        animation: slideUp 0.3s ease-out;
+    }
+    
+    @keyframes slideUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    #sidebarToggle {
+        display: block !important;
+    }
+    
+    aside .p-4.border-t {
+        padding: 0.75rem !important;
+    }
+    
+    main {
+        flex: 1;
+        overflow-y: auto;
+        height: auto;
+    }
+    
+    header.sticky {
+        position: relative !important;
+        padding: 0.75rem 1rem !important;
+    }
+    
+    header .flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.25rem;
+    }
+    
+    header h2 {
+        font-size: 1.125rem !important;
+    }
+    
+    header p {
+        font-size: 0.7rem !important;
+    }
+    
+    .max-w-5xl {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    .px-10 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    .py-12 {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+    
+    .space-y-16 > * + * {
+        margin-top: 2rem !important;
+    }
+    
+    .modal-content {
+        padding: 20px !important;
+        margin: 1rem !important;
+    }
+    
     .checkbox-group {
         grid-template-columns: 1fr;
     }
+    
     .select-group {
         grid-template-columns: 1fr;
+        padding: 1rem;
     }
+    
     .comision-list {
         grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
         gap: 8px;
         padding: 12px;
     }
+    
     .comision-ids {
         grid-template-columns: 1fr;
     }
+    
     #dynamicSection .bg-white {
-        padding: 20px;
+        padding: 1.25rem !important;
     }
+    
+    .bg-white.rounded-xl {
+        padding: 1.25rem !important;
+    }
+    
+    .grid.grid-cols-1.md\\:grid-cols-2 {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Botones sticky en móviles */
+    .sticky.bottom-0 {
+        position: sticky;
+        bottom: 0;
+        padding: 0.75rem !important;
+    }
+    
+    .sticky.bottom-0 .flex {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .sticky.bottom-0 button {
+        width: 100%;
+        padding: 0.875rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    header h2 {
+        font-size: 1rem !important;
+    }
+    
+    header p {
+        font-size: 0.625rem !important;
+    }
+    
+    .text-xl {
+        font-size: 1.125rem !important;
+    }
+    
+    .text-2xl {
+        font-size: 1.25rem !important;
+    }
+    
+    .w-8.h-8 {
+        width: 1.75rem !important;
+        height: 1.75rem !important;
+    }
+}
+
+#sidebarToggle {
+    display: none;
 }
