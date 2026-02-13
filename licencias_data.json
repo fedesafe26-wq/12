@@ -1181,5 +1181,184 @@
     ],
     "timestamp": "2026-02-13T03:52:29.682Z",
     "id": "LIC-1770954753077"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-14",
+    "fechaFin": "2026-02-24",
+    "motivo": "Viaje",
+    "articulo": "34",
+    "otroFuncion": "",
+    "observacionesGenerales": "Test",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "DC I NATACIÓN",
+        "comision": [
+          "A",
+          "B"
+        ],
+        "comisionesConIds": [
+          {
+            "nombre": "A",
+            "id": "123465"
+          },
+          {
+            "nombre": "B",
+            "id": "123798"
+          }
+        ],
+        "observaciones": "Dejo material"
+      },
+      {
+        "tipo": "docente_tercer_año",
+        "label": "Docente de tercer año Ed. Física",
+        "tipoFuncion": "docente_tercer_año",
+        "subespacio": "DAC III SISTEMA DE ENTRENAMIENTO DE DAC",
+        "comision": [
+          "C"
+        ],
+        "comisionesConIds": [
+          {
+            "nombre": "C",
+            "id": "852963"
+          }
+        ],
+        "observaciones": "Salto"
+      }
+    ],
+    "timestamp": "2026-02-13T15:11:10.683Z",
+    "id": "LIC-1770995474250"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-14",
+    "fechaFin": "2026-02-24",
+    "motivo": "Viaje",
+    "articulo": "34",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "DAC I FÚTBOL",
+        "comision": [
+          "A",
+          "B"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "741852"
+          },
+          {
+            "comision": "B",
+            "id": "852963"
+          }
+        ],
+        "observaciones": "Salto"
+      },
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "DC II NATACIÓN",
+        "comision": [
+          "A",
+          "B",
+          "C"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "789456"
+          },
+          {
+            "comision": "B",
+            "id": "456123"
+          },
+          {
+            "comision": "C",
+            "id": "123789"
+          }
+        ],
+        "observaciones": "Material disponible"
+      },
+      {
+        "tipo": "docente_tercer_año",
+        "label": "Docente de tercer año Ed. Física",
+        "tipoFuncion": "docente_tercer_año",
+        "subespacio": "DAG III HANDBOL",
+        "comision": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "12"
+          },
+          {
+            "comision": "B",
+            "id": "34"
+          },
+          {
+            "comision": "C",
+            "id": "56"
+          },
+          {
+            "comision": "D",
+            "id": "78"
+          },
+          {
+            "comision": "E",
+            "id": "90"
+          },
+          {
+            "comision": "F",
+            "id": "123"
+          },
+          {
+            "comision": "G",
+            "id": "456"
+          },
+          {
+            "comision": "H",
+            "id": "789"
+          },
+          {
+            "comision": "I",
+            "id": "0123"
+          },
+          {
+            "comision": "J",
+            "id": "4567"
+          }
+        ],
+        "observaciones": "Material en Bedelia"
+      }
+    ],
+    "timestamp": "2026-02-13T15:16:25.819Z",
+    "id": "LIC-1770995789412"
   }
 ]

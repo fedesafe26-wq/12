@@ -147,14 +147,6 @@ body.modal-open {
 }
 
 /* ESTILOS PARA CAMPOS DINÁMICOS COMPATIBILIDAD */
-.section-body {
-    /* El JavaScript puede añadir/quitar esta clase */
-}
-
-.collapse-indicator {
-    /* Indicador de colapso si se usa */
-}
-
 .download-note {
     margin-top: 10px;
     font-size: 0.95em;
@@ -359,27 +351,26 @@ body.modal-open {
 
 /* COMISIÓN LIST - Lista de checkboxes */
 .comision-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
-    padding: 16px;
-    max-height: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+    max-height: 350px;
     overflow-y: auto;
     background-color: white;
 }
 
-/* COMISIÓN ITEM - Cada checkbox individual */
+/* COMISIÓN ITEM - Cada checkbox individual con ID */
 .comision-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
     align-items: center;
-    gap: 8px;
-    padding: 10px 12px;
+    padding: 4px 8px;
     background-color: #f8f9fa;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
-    cursor: pointer;
     transition: all 0.2s ease;
-    user-select: none;
     font-size: 0.9em;
 }
 
@@ -388,22 +379,104 @@ body.modal-open {
     border-color: #1258e2;
 }
 
-.comision-item input[type="checkbox"] {
+.comision-item:has(input[type="checkbox"]:checked) {
+    background-color: rgba(18, 88, 226, 0.05);
+    border-color: #1258e2;
+}
+
+.comision-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.comision-checkbox {
     width: 16px;
     height: 16px;
     cursor: pointer;
     accent-color: #1258e2;
     margin: 0;
+    flex-shrink: 0;
 }
 
-.comision-item input[type="checkbox"]:checked ~ span {
+.comision-name {
+    font-weight: 500;
+    color: #334155;
+    flex: 1;
+}
+
+.comision-checkbox:checked ~ .comision-name {
     font-weight: 600;
     color: #1258e2;
 }
 
-.comision-item span {
-    font-weight: 500;
-    color: #334155;
+.comision-id-input {
+    width: 120px;
+    padding: 6px 10px;
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.875em;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.comision-id-input:disabled {
+    background-color: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.comision-id-input:enabled:focus {
+    outline: none;
+    border-color: #1258e2;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(18, 88, 226, 0.1);
+}
+
+.dark .comision-list {
+    background-color: #0f172a;
+}
+
+.dark .comision-item {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+.dark .comision-item:hover {
+    background-color: rgba(96, 165, 250, 0.1);
+    border-color: #60a5fa;
+}
+
+.dark .comision-item:has(input[type="checkbox"]:checked) {
+    background-color: rgba(96, 165, 250, 0.15);
+    border-color: #60a5fa;
+}
+
+.dark .comision-name {
+    color: #e2e8f0;
+}
+
+.dark .comision-checkbox:checked ~ .comision-name {
+    color: #60a5fa;
+}
+
+.dark .comision-id-input {
+    background-color: #0f172a;
+    border-color: #475569;
+    color: #e2e8f0;
+}
+
+.dark .comision-id-input:disabled {
+    background-color: #334155;
+    color: #64748b;
+}
+
+.dark .comision-id-input:enabled:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
 }
 
 /* COMISIÓN IDS - Contenedor de inputs por comisión */
@@ -549,6 +622,133 @@ body.modal-open {
     display: none;
 }
 
+/* Dropdown de funciones */
+.funciones-dropdown {
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    width: 100%;
+    position: relative;
+}
+
+.funciones-dropdown[open] {
+    border-color: #1258e2;
+    box-shadow: 0 0 0 3px rgba(18, 88, 226, 0.1);
+}
+
+.funciones-dropdown summary {
+    list-style: none;
+    padding: 12px 40px 12px 16px;
+    cursor: pointer;
+    font-size: 0.95em;
+    color: #334155;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    position: relative;
+    min-height: 48px;
+}
+
+.funciones-dropdown summary::after {
+    content: '▼';
+    position: absolute;
+    right: 16px;
+    color: #64748b;
+    font-size: 0.7em;
+    transition: transform 0.3s ease;
+}
+
+.funciones-dropdown[open] summary {
+    background-color: white;
+    border-bottom: 1px solid #e2e8f0;
+    border-radius: 8px 8px 0 0;
+}
+
+.funciones-dropdown[open] summary::after {
+    transform: rotate(180deg);
+}
+
+.funciones-dropdown summary::-webkit-details-marker {
+    display: none;
+}
+
+.dark .funciones-dropdown {
+    border-color: #475569;
+    background-color: #1e293b;
+}
+
+.dark .funciones-dropdown summary {
+    background-color: #1e293b;
+    color: #e2e8f0;
+}
+
+.dark .funciones-dropdown[open] summary {
+    background-color: #0f172a;
+    border-bottom-color: #334155;
+}
+
+/* Lista de funciones */
+.funciones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+    max-height: 350px;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.dark .funciones-list {
+    background-color: #0f172a;
+}
+
+/* Estilos para checkboxes de funciones */
+.funcion-checkbox-item {
+    transition: all 0.3s ease;
+    margin: 0;
+}
+
+.funcion-checkbox-item:has(input:checked) {
+    background-color: rgba(18, 88, 226, 0.1) !important;
+    border-color: #1258e2 !important;
+}
+
+.dark .funcion-checkbox-item:has(input:checked) {
+    background-color: rgba(96, 165, 250, 0.2) !important;
+    border-color: #60a5fa !important;
+}
+
+.funcion-checkbox-item input:checked + span {
+    color: #1258e2 !important;
+    font-weight: 600;
+}
+
+.dark .funcion-checkbox-item input:checked + span {
+    color: #60a5fa !important;
+}
+
+/* Tarjetas colapsables de funciones */
+.function-card {
+    transition: all 0.3s ease;
+}
+
+.function-card-header {
+    position: relative;
+}
+
+.function-card-header .material-icons-outlined:last-child {
+    transition: transform 0.3s ease;
+}
+
+.function-card-body {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+
 /* Responsive para sidebar */
 @media (max-width: 1024px) {
     aside {
@@ -670,13 +870,13 @@ body.modal-open {
         padding-right: 1rem !important;
     }
     
-    .py-12 {
-        padding-top: 1.5rem !important;
-        padding-bottom: 1.5rem !important;
+    .py-12, .py-6 {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
     }
     
-    .space-y-16 > * + * {
-        margin-top: 2rem !important;
+    .space-y-16 > * + *, .space-y-8 > * + * {
+        margin-top: 1.5rem !important;
     }
     
     .modal-content {
@@ -694,9 +894,33 @@ body.modal-open {
     }
     
     .comision-list {
-        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-        gap: 8px;
+        gap: 6px;
         padding: 12px;
+        max-height: 300px;
+    }
+    
+    .comision-item {
+        grid-template-columns: 1fr 80px;
+        gap: 8px;
+        padding: 8px 10px;
+        font-size: 0.85em;
+    }
+    
+    .comision-id-input {
+        width: 80px;
+        font-size: 0.8em;
+        padding: 5px 8px;
+    }
+    
+    .funciones-list {
+        gap: 6px;
+        padding: 12px;
+        max-height: 300px;
+    }
+    
+    .funcion-checkbox-item {
+        padding: 10px !important;
+        font-size: 0.875rem;
     }
     
     .comision-ids {

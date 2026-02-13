@@ -110,25 +110,22 @@ const TIPOS_FUNCIONES = {
 // INICIALIZACIÓN
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('licenseForm');
-    const funcionesSelect = document.getElementById('funcionesSelect');
     const noticeModal = document.getElementById('noticeModal');
     const noticeAcceptBtn = document.getElementById('noticeAcceptBtn');
     const fechaInicioInput = document.getElementById('fechaInicio');
     const fechaFinInput = document.getElementById('fechaFin');
     
-    // Event listener para el desplegable
-    funcionesSelect.addEventListener('change', handleFuncionChange);
-
-    // Event listener para mostrar/ocultar campo "Otro"
-    funcionesSelect.addEventListener('change', () => {
-        const otroContainer = document.getElementById('otroFuncionContainer');
-        if (funcionesSelect.value === 'otro_funcion') {
-            otroContainer.style.display = 'block';
-            otroContainer.classList.add('fade-in');
-        } else {
-            otroContainer.style.display = 'none';
-        }
+    // Event listener para los checkboxes de funciones
+    const funcionesCheckboxes = document.querySelectorAll('input[name="funciones"]');
+    funcionesCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', handleFuncionesChange);
     });
+    
+    // Event listener para actualizar el summary del dropdown de funciones
+    const funcionesDropdown = document.getElementById('funcionesDropdown');
+    if (funcionesDropdown) {
+        funcionesDropdown.addEventListener('change', updateFuncionesSummary);
+    }
 
     // Event listener para el formulario
     form.addEventListener('submit', handleFormSubmit);
@@ -146,6 +143,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (otroContainer) {
                 otroContainer.style.display = 'none';
             }
+            
+            // Resetear el summary del dropdown de funciones
+            updateFuncionesSummary();
             
             updateSectionStates();
         }, 0);
@@ -214,11 +214,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const target = event.target;
         if (!(target instanceof Element)) return;
 
+        // Cerrar dropdowns de comisiones cuando se hace clic fuera
         document.querySelectorAll('.comision-dropdown[open]').forEach((dropdown) => {
             if (!dropdown.contains(target)) {
                 dropdown.removeAttribute('open');
             }
         });
+        
+        // Cerrar dropdown de funciones cuando se hace clic fuera
+        const funcionesDropdown = document.getElementById('funcionesDropdown');
+        if (funcionesDropdown && funcionesDropdown.open && !funcionesDropdown.contains(target)) {
+            funcionesDropdown.removeAttribute('open');
+        }
     });
 });
 
@@ -363,16 +370,42 @@ function isElementFilled(element) {
     return Boolean(element.value && element.value.trim());
 }
 
-// Manejo de cambio de funciones
-function handleFuncionChange() {
-    const funcionesSelect = document.getElementById('funcionesSelect');
-    const selectedOption = funcionesSelect.options[funcionesSelect.selectedIndex];
+// Actualizar el summary del dropdown de funciones
+function updateFuncionesSummary() {
+    const checkboxes = document.querySelectorAll('input[name="funciones"]:checked');
+    const summary = document.getElementById('funcionesSummary');
+    
+    if (!summary) return;
+    
+    if (checkboxes.length === 0) {
+        summary.textContent = 'Seleccione las funciones';
+    } else {
+        const labels = Array.from(checkboxes).map(cb => cb.getAttribute('data-label'));
+        summary.textContent = labels.join(', ');
+    }
+}
+
+// Manejo de cambio de funciones (checkboxes múltiples)
+function handleFuncionesChange() {
+    updateFuncionesSummary();
+    
+    const checkboxes = document.querySelectorAll('input[name="funciones"]:checked');
     const dynamicSection = document.getElementById('dynamicSection');
+    const otroContainer = document.getElementById('otroFuncionContainer');
+    
+    // Verificar si "Otro" está seleccionado
+    const otroChecked = Array.from(checkboxes).some(cb => cb.value === 'otro_funcion');
+    if (otroChecked) {
+        otroContainer.style.display = 'block';
+        otroContainer.classList.add('fade-in');
+    } else {
+        otroContainer.style.display = 'none';
+    }
     
     // Limpiar sección dinámica
     dynamicSection.innerHTML = '';
     
-    if (!funcionesSelect.value) {
+    if (checkboxes.length === 0) {
         dynamicSection.style.display = 'none';
         return;
     }
@@ -380,44 +413,94 @@ function handleFuncionChange() {
     dynamicSection.style.display = 'block';
 
     // Procesar cada función seleccionada
-    const value = funcionesSelect.value;
-    const type = selectedOption ? selectedOption.getAttribute('data-type') : '';
-    const functionLabel = selectedOption ? selectedOption.textContent.trim() : value;
+    checkboxes.forEach((checkbox, index) => {
+        const value = checkbox.value;
+        const type = checkbox.getAttribute('data-type');
+        const functionLabel = checkbox.getAttribute('data-label');
 
-    if (type === 'docente_primer_año' || type === 'docente_segundo_año' || 
-        type === 'docente_tercer_año' || type === 'docente_cuarto_año') {
-        createDocenteFields(dynamicSection, value, 0, functionLabel);
-    } else if (FUNCIONES_CON_ID.has(value)) {
-        createFuncionIdField(dynamicSection, value, 0, functionLabel);
-    }
-    // Para docentes simples y otros, solo agregar observaciones en la última sección
-
-    // Agregar observaciones solo una vez al final
-    if (funcionesSelect.value) {
-        addObservationsField(dynamicSection);
-    }
+        // Crear tarjeta colapsable para cada función
+        const card = createCollapsibleFunctionCard(value, type, functionLabel, index);
+        dynamicSection.appendChild(card);
+    });
 
     updateSectionStates();
 }
 
-function createFuncionIdField(container, functionType, index, functionLabel) {
-    const fieldset = document.createElement('fieldset');
-    fieldset.className = 'select-group fade-in';
-    fieldset.style.marginTop = '20px';
+// Crear tarjeta colapsable para una función
+function createCollapsibleFunctionCard(functionValue, functionType, functionLabel, index) {
+    const card = document.createElement('div');
+    card.className = 'function-card bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/10 mb-6 overflow-hidden fade-in';
+    card.setAttribute('data-function-index', index);
+    
+    // Header (clickeable para colapsar/expandir)
+    const header = document.createElement('div');
+    header.className = 'function-card-header flex items-center justify-between p-4 cursor-pointer bg-primary/5 hover:bg-primary/10 transition-colors';
+    header.setAttribute('role', 'button');
+    header.setAttribute('aria-expanded', 'false');
+    
+    const headerLeft = document.createElement('div');
+    headerLeft.className = 'flex items-center gap-3';
+    
+    const icon = document.createElement('span');
+    icon.className = 'material-icons-outlined text-primary';
+    icon.textContent = 'work';
+    
+    const title = document.createElement('h4');
+    title.className = 'text-base font-bold text-slate-900 dark:text-white';
+    title.textContent = functionLabel;
+    
+    headerLeft.appendChild(icon);
+    headerLeft.appendChild(title);
+    
+    const expandIcon = document.createElement('span');
+    expandIcon.className = 'material-icons-outlined text-slate-500 transition-transform';
+    expandIcon.textContent = 'expand_more';
+    
+    header.appendChild(headerLeft);
+    header.appendChild(expandIcon);
+    
+    // Body (contenido colapsable)
+    const body = document.createElement('div');
+    body.className = 'function-card-body';
+    body.style.display = 'none';
+    body.style.padding = '1rem';
+    
+    // Agregar campos según el tipo de función
+    if (functionType === 'docente_primer_año' || functionType === 'docente_segundo_año' || 
+        functionType === 'docente_tercer_año' || functionType === 'docente_cuarto_año') {
+        createDocenteFieldsInCard(body, functionValue, index, functionLabel);
+    } else if (FUNCIONES_CON_ID.has(functionValue)) {
+        createFuncionIdFieldInCard(body, functionValue, index, functionLabel);
+    }
+    
+    // Toggle collapse/expand
+    header.addEventListener('click', () => {
+        const isExpanded = header.getAttribute('aria-expanded') === 'true';
+        header.setAttribute('aria-expanded', (!isExpanded).toString());
+        
+        if (isExpanded) {
+            body.style.display = 'none';
+            expandIcon.style.transform = 'rotate(0deg)';
+        } else {
+            body.style.display = 'block';
+            expandIcon.style.transform = 'rotate(180deg)';
+        }
+    });
+    
+    card.appendChild(header);
+    card.appendChild(body);
+    
+    return card;
+}
 
-    const legend = document.createElement('legend');
-    legend.style.fontSize = '1.1em';
-    legend.style.fontWeight = '600';
-    legend.style.color = 'var(--primary-color)';
-    legend.style.marginBottom = '15px';
-    legend.textContent = `ID para: ${functionLabel || functionType}`;
-    fieldset.appendChild(legend);
-
+// Crear campos de ID dentro de la tarjeta
+function createFuncionIdFieldInCard(container, functionType, index, functionLabel) {
     const idDiv = document.createElement('div');
-    idDiv.className = 'select-item';
+    idDiv.className = 'space-y-2';
 
     const idLabel = document.createElement('label');
     idLabel.htmlFor = `funcion_id_${index}`;
+    idLabel.className = 'block text-sm font-semibold text-slate-700 dark:text-slate-300';
     idLabel.textContent = 'ID de la función *';
     idDiv.appendChild(idLabel);
 
@@ -425,6 +508,7 @@ function createFuncionIdField(container, functionType, index, functionLabel) {
     idInput.type = 'text';
     idInput.id = `funcion_id_${index}`;
     idInput.name = `funcion_id_${index}`;
+    idInput.className = 'block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm';
     idInput.placeholder = 'Ingrese el ID';
     idInput.required = true;
     idInput.inputMode = 'numeric';
@@ -432,46 +516,29 @@ function createFuncionIdField(container, functionType, index, functionLabel) {
     idInput.maxLength = 10;
     idDiv.appendChild(idInput);
 
-    fieldset.appendChild(idDiv);
-    container.appendChild(fieldset);
+    container.appendChild(idDiv);
 }
 
-// Crear campos para docentes con subespacios y comisiones
-function createDocenteFields(container, docenteType, index, functionLabel) {
-    const fieldset = document.createElement('fieldset');
-    fieldset.className = 'select-group fade-in';
-    fieldset.style.marginTop = '20px';
-    
-    const functionName = functionLabel || docenteType;
-    
-    // Título
-    const legend = document.createElement('legend');
-    legend.style.fontSize = '1.1em';
-    legend.style.fontWeight = '600';
-    legend.style.color = 'var(--primary-color)';
-    legend.style.marginBottom = '15px';
-    legend.textContent = `Datos para: ${functionName}`;
-    fieldset.appendChild(legend);
-
+// Crear campos para docentes dentro de la tarjeta
+function createDocenteFieldsInCard(container, docenteType, index, functionLabel) {
     // Container de los selects
     const selectsContainer = document.createElement('div');
-    selectsContainer.style.display = 'grid';
-    selectsContainer.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, 1fr))';
-    selectsContainer.style.gap = '20px';
+    selectsContainer.className = 'space-y-4';
 
     // Select de Subespacios
     const subespacioDiv = document.createElement('div');
-    subespacioDiv.className = 'select-item';
+    subespacioDiv.className = 'space-y-2';
     
     const subespacioLabel = document.createElement('label');
     subespacioLabel.htmlFor = `subespacio_${index}`;
+    subespacioLabel.className = 'block text-sm font-semibold text-slate-700 dark:text-slate-300';
     subespacioLabel.textContent = 'Subespacios en los cuales se ausentará *';
     subespacioDiv.appendChild(subespacioLabel);
 
     const subespacioSelect = document.createElement('select');
     subespacioSelect.id = `subespacio_${index}`;
     subespacioSelect.name = `subespacio_${index}`;
-    subespacioSelect.className = `subespacio-select`;
+    subespacioSelect.className = 'subespacio-select block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm';
     subespacioSelect.setAttribute('data-docente', docenteType);
     subespacioSelect.required = true;
 
@@ -510,12 +577,12 @@ function createDocenteFields(container, docenteType, index, functionLabel) {
     // Campo "Otro" para subespacio
     const otroSubespacioDiv = document.createElement('div');
     otroSubespacioDiv.id = `subespacio_otro_${index}`;
-    otroSubespacioDiv.className = 'select-item';
+    otroSubespacioDiv.className = 'space-y-2';
     otroSubespacioDiv.style.display = 'none';
-    otroSubespacioDiv.style.gridColumn = '1 / -1';
 
     const otroSubespacioLabel = document.createElement('label');
     otroSubespacioLabel.htmlFor = `subespacio_otro_input_${index}`;
+    otroSubespacioLabel.className = 'block text-sm font-semibold text-slate-700 dark:text-slate-300';
     otroSubespacioLabel.textContent = 'Por favor especifique el subespacio:';
     otroSubespacioDiv.appendChild(otroSubespacioLabel);
 
@@ -523,16 +590,18 @@ function createDocenteFields(container, docenteType, index, functionLabel) {
     otroSubespacioInput.type = 'text';
     otroSubespacioInput.id = `subespacio_otro_input_${index}`;
     otroSubespacioInput.name = `subespacio_otro_${index}`;
+    otroSubespacioInput.className = 'block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm';
     otroSubespacioInput.placeholder = 'Escriba aquí el subespacio';
     otroSubespacioDiv.appendChild(otroSubespacioInput);
 
     selectsContainer.appendChild(otroSubespacioDiv);
 
-    // Select de Comisión
+    // Comisiones
     const comisionDiv = document.createElement('div');
-    comisionDiv.className = 'select-item';
+    comisionDiv.className = 'space-y-2';
     
     const comisionLabel = document.createElement('label');
+    comisionLabel.className = 'block text-sm font-semibold text-slate-700 dark:text-slate-300';
     comisionLabel.textContent = 'Comisión *';
     comisionDiv.appendChild(comisionLabel);
 
@@ -549,156 +618,110 @@ function createDocenteFields(container, docenteType, index, functionLabel) {
 
     const comisiones = COMISIONES[docenteType] || [];
     comisiones.forEach(comision => {
-        const itemLabel = document.createElement('label');
-        itemLabel.className = 'comision-item';
+        const itemContainer = document.createElement('div');
+        itemContainer.className = 'comision-item';
+
+        const checkboxContainer = document.createElement('label');
+        checkboxContainer.className = 'comision-checkbox-label';
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.name = `comision_${index}`;
         checkbox.value = comision;
+        checkbox.className = 'comision-checkbox';
 
         const text = document.createElement('span');
         text.textContent = comision;
+        text.className = 'comision-name';
 
-        itemLabel.appendChild(checkbox);
-        itemLabel.appendChild(text);
-        comisionList.appendChild(itemLabel);
+        checkboxContainer.appendChild(checkbox);
+        checkboxContainer.appendChild(text);
+
+        const idInput = document.createElement('input');
+        idInput.type = 'text';
+        idInput.name = `comision_id_${index}_${comision.replace(/\s+/g, '_')}`;
+        idInput.className = 'comision-id-input';
+        idInput.placeholder = 'ID';
+        idInput.disabled = true;
+        idInput.inputMode = 'numeric';
+        idInput.pattern = '\\d+';
+
+        // Habilitar/deshabilitar input según checkbox
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                idInput.disabled = false;
+                idInput.required = true;
+            } else {
+                idInput.disabled = true;
+                idInput.required = false;
+                idInput.value = '';
+            }
+        });
+
+        itemContainer.appendChild(checkboxContainer);
+        itemContainer.appendChild(idInput);
+        comisionList.appendChild(itemContainer);
     });
 
     comisionDropdown.appendChild(comisionList);
-
     comisionDiv.appendChild(comisionDropdown);
     selectsContainer.appendChild(comisionDiv);
 
-    // IDs por comisión seleccionada
-    const comisionIdsDiv = document.createElement('div');
-    comisionIdsDiv.className = 'select-item';
-    comisionIdsDiv.style.gridColumn = '1 / -1';
-
-    const comisionIdsLabel = document.createElement('label');
-    comisionIdsLabel.textContent = 'ID de la Comisión (1-7 dígitos) *';
-    comisionIdsDiv.appendChild(comisionIdsLabel);
-
-    const comisionIdsContainer = document.createElement('div');
-    comisionIdsContainer.className = 'comision-ids';
-    comisionIdsDiv.appendChild(comisionIdsContainer);
-
-    selectsContainer.appendChild(comisionIdsDiv);
-
     // Campo "Otro" para comisión
     const otroComisionDiv = document.createElement('div');
-    otroComisionDiv.id = `comision_otro_${index}`;
-    otroComisionDiv.className = 'select-item';
+    otroComisionDiv.id = `comision_otro_container_${index}`;
+    otroComisionDiv.className = 'space-y-2';
     otroComisionDiv.style.display = 'none';
-    otroComisionDiv.style.gridColumn = '1 / -1';
 
     const otroComisionLabel = document.createElement('label');
-    otroComisionLabel.htmlFor = `comision_otro_input_${index}`;
-    otroComisionLabel.textContent = 'Por favor especifique la comisión:';
+    otroComisionLabel.htmlFor = `comision_otro_${index}`;
+    otroComisionLabel.className = 'block text-sm font-semibold text-slate-700 dark:text-slate-300';
+    otroComisionLabel.textContent = 'Especifique la comisión:';
     otroComisionDiv.appendChild(otroComisionLabel);
 
     const otroComisionInput = document.createElement('input');
     otroComisionInput.type = 'text';
-    otroComisionInput.id = `comision_otro_input_${index}`;
+    otroComisionInput.id = `comision_otro_${index}`;
     otroComisionInput.name = `comision_otro_${index}`;
+    otroComisionInput.className = 'block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm';
     otroComisionInput.placeholder = 'Escriba aquí la comisión';
     otroComisionDiv.appendChild(otroComisionInput);
 
     selectsContainer.appendChild(otroComisionDiv);
 
-    // Escuchar cambios en los checkboxes de comisiones
-    comisionDropdown.addEventListener('change', () => {
-        const selectedValues = Array.from(
-            comisionDropdown.querySelectorAll('input[type="checkbox"]:checked')
-        ).map(input => input.value);
-
-        comisionSummary.textContent = selectedValues.length > 0
-            ? selectedValues.join(', ')
-            : 'Seleccione comisiones';
-
-        const otroContainer = document.getElementById(`comision_otro_${index}`);
-        if (selectedValues.includes('Otro')) {
-            if (otroContainer) {
-                otroContainer.style.display = 'block';
+    // Event listener para mostrar "Otro" comision
+    comisionList.addEventListener('change', (e) => {
+        if (e.target.type === 'checkbox' && e.target.value === 'Otro') {
+            if (e.target.checked) {
+                otroComisionDiv.style.display = 'block';
+            } else {
+                otroComisionDiv.style.display = 'none';
+                otroComisionInput.value = '';
             }
-        } else if (otroContainer) {
-            otroContainer.style.display = 'none';
-            otroComisionInput.value = '';
         }
-
-        updateComisionIdFields(index, comisionDropdown, comisionIdsContainer, otroComisionInput);
     });
-
-    otroComisionInput.addEventListener('input', () => {
-        updateComisionIdFields(index, comisionDropdown, comisionIdsContainer, otroComisionInput);
-    });
-
-    updateComisionIdFields(index, comisionDropdown, comisionIdsContainer, otroComisionInput);
 
     // Observaciones
-    const observacionesDiv = document.createElement('div');
-    observacionesDiv.className = 'select-item';
-    observacionesDiv.style.gridColumn = '1 / -1';
+    const obsDiv = document.createElement('div');
+    obsDiv.className = 'space-y-2';
+    
+    const obsLabel = document.createElement('label');
+    obsLabel.htmlFor = `observaciones_${index}`;
+    obsLabel.className = 'block text-sm font-semibold text-slate-700 dark:text-slate-300';
+    obsLabel.textContent = 'Observaciones (opcional)';
+    obsDiv.appendChild(obsLabel);
 
-    const observacionesLabel = document.createElement('label');
-    observacionesLabel.htmlFor = `observaciones_${index}`;
-    observacionesLabel.textContent = 'Observaciones o Aclaraciones (opcional)';
-    observacionesDiv.appendChild(observacionesLabel);
+    const obsTextarea = document.createElement('textarea');
+    obsTextarea.id = `observaciones_${index}`;
+    obsTextarea.name = `observaciones_${index}`;
+    obsTextarea.className = 'block w-full p-4 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm min-h-[100px]';
+    obsTextarea.rows = 3;
+    obsTextarea.placeholder = 'Observaciones adicionales...';
+    obsDiv.appendChild(obsTextarea);
 
-    const observacionesTextarea = document.createElement('textarea');
-    observacionesTextarea.id = `observaciones_${index}`;
-    observacionesTextarea.name = `observaciones_${index}`;
-    observacionesTextarea.rows = '3';
-    observacionesTextarea.placeholder = 'Escriba aquí cualquier aclaración u observación...';
-    observacionesDiv.appendChild(observacionesTextarea);
+    selectsContainer.appendChild(obsDiv);
 
-    selectsContainer.appendChild(observacionesDiv);
-
-    fieldset.appendChild(selectsContainer);
-    container.appendChild(fieldset);
-}
-
-function updateComisionIdFields(index, comisionDropdown, comisionIdsContainer, otroComisionInput) {
-    const selectedValues = Array.from(
-        comisionDropdown.querySelectorAll('input[type="checkbox"]:checked')
-    ).map(input => input.value);
-
-    const existingValues = new Map(
-        Array.from(comisionIdsContainer.querySelectorAll('input')).map(input => [
-            input.dataset.comision,
-            input.value
-        ])
-    );
-
-    comisionIdsContainer.innerHTML = '';
-
-    selectedValues.forEach(value => {
-        const displayLabel = value === 'Otro'
-            ? (otroComisionInput.value.trim() || 'Otro')
-            : value;
-
-        const item = document.createElement('div');
-        item.className = 'comision-id-item';
-
-        const label = document.createElement('label');
-        label.textContent = `ID Comisión ${displayLabel} *`;
-        item.appendChild(label);
-
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.name = `comision_id_${index}[]`;
-        input.placeholder = 'Ingrese ID (1-7 dígitos)';
-        input.inputMode = 'numeric';
-        input.maxLength = 7;
-        input.pattern = '\\d{1,7}';
-        input.required = true;
-        input.dataset.comision = value;
-        input.dataset.comisionLabel = displayLabel;
-        input.value = existingValues.get(value) || '';
-        item.appendChild(input);
-
-        comisionIdsContainer.appendChild(item);
-    });
+    container.appendChild(selectsContainer);
 }
 
 // Agregar campo de observaciones general
@@ -754,18 +777,17 @@ function validateForm(formData) {
         errors.push('El número de artículo es requerido');
     }
 
-    // Validar funciones
-    const funcionesSelect = document.getElementById('funcionesSelect');
-    if (!funcionesSelect.value) {
+    // Validar funciones (checkboxes)
+    const funcionesCheckboxes = document.querySelectorAll('input[name="funciones"]:checked');
+    if (funcionesCheckboxes.length === 0) {
         errors.push('Debe seleccionar al menos una función');
     }
 
-    // Validar campos dinámicos para docentes
-    if (funcionesSelect.value) {
-        const selectedOption = funcionesSelect.options[funcionesSelect.selectedIndex];
-        const type = selectedOption ? selectedOption.getAttribute('data-type') : '';
-        const index = 0;
-
+    // Validar campos dinámicos para cada función seleccionada
+    funcionesCheckboxes.forEach((checkbox, index) => {
+        const type = checkbox.getAttribute('data-type');
+        const label = checkbox.getAttribute('data-label');
+        
         if (type === 'docente_primer_año' || type === 'docente_segundo_año' || 
             type === 'docente_tercer_año' || type === 'docente_cuarto_año') {
             
@@ -773,26 +795,23 @@ function validateForm(formData) {
             const comisionCheckboxes = document.querySelectorAll(
                 `input[name="comision_${index}"]:checked`
             );
-            const comisionIdInputs = document.querySelectorAll(`input[name="comision_id_${index}[]"]`);
             
             if (subespacioSelect && !subespacioSelect.value) {
-                errors.push('El subespacio para la función seleccionada es requerido');
+                errors.push(`El subespacio para "${label}" es requerido`);
             }
             
             if (comisionCheckboxes.length === 0) {
-                errors.push('Debe seleccionar al menos una comisión');
+                errors.push(`Debe seleccionar al menos una comisión para "${label}"`);
             }
 
-            if (comisionIdInputs.length !== comisionCheckboxes.length) {
-                errors.push('Debe ingresar un ID por cada comisión seleccionada');
-            }
-
-            const idRegex = /^\d{1,7}$/;
-            comisionIdInputs.forEach(input => {
-                const value = input.value.trim();
-                const label = input.dataset.comisionLabel || 'la comisión';
-                if (!idRegex.test(value)) {
-                    errors.push(`El ID de ${label} debe tener hasta 7 dígitos`);
+            // Validar IDs de comisiones (cada comisión marcada debe tener su ID)
+            comisionCheckboxes.forEach(cb => {
+                const comisionName = cb.value.replace(/\s+/g, '_');
+                const idInput = document.querySelector(`input[name="comision_id_${index}_${comisionName}"]`);
+                if (idInput && !idInput.value.trim()) {
+                    errors.push(`El ID para la comisión "${cb.value}" en "${label}" es requerido`);
+                } else if (idInput && !/^\d+$/.test(idInput.value.trim())) {
+                    errors.push(`El ID para la comisión "${cb.value}" debe contener solo números`);
                 }
             });
 
@@ -800,26 +819,26 @@ function validateForm(formData) {
             if (subespacioSelect && subespacioSelect.value === 'Otro') {
                 const otroInput = document.querySelector(`input[name="subespacio_otro_${index}"]`);
                 if (!otroInput || !otroInput.value.trim()) {
-                    errors.push('Debe especificar el subespacio para la función seleccionada');
+                    errors.push(`Debe especificar el subespacio para "${label}"`);
                 }
             }
 
-            const selectedValues = Array.from(comisionCheckboxes).map(input => input.value);
-            if (selectedValues.includes('Otro')) {
+            const selectedComisionValues = Array.from(comisionCheckboxes).map(input => input.value);
+            if (selectedComisionValues.includes('Otro')) {
                 const otroInput = document.querySelector(`input[name="comision_otro_${index}"]`);
                 if (!otroInput || !otroInput.value.trim()) {
-                    errors.push('Debe especificar la comisión para la función seleccionada');
+                    errors.push(`Debe especificar la comisión para "${label}"`);
                 }
             }
-        } else if (FUNCIONES_CON_ID.has(funcionesSelect.value)) {
-            const idInput = document.querySelector('input[name="funcion_id_0"]');
+        } else if (FUNCIONES_CON_ID.has(checkbox.value)) {
+            const idInput = document.querySelector(`input[name="funcion_id_${index}"]`);
             if (!idInput || !idInput.value.trim()) {
-                errors.push('El ID para la función seleccionada es requerido');
+                errors.push(`El ID para "${label}" es requerido`);
             } else if (!/^\d+$/.test(idInput.value.trim())) {
-                errors.push('El ID para la función seleccionada debe contener solo números');
+                errors.push(`El ID para "${label}" debe contener solo números`);
             }
         }
-    }
+    });
 
     return errors;
 }
@@ -854,19 +873,19 @@ async function handleFormSubmit(e) {
         timestamp: new Date().toISOString()
     };
 
-    // Recopilar funciones seleccionadas
-    const funcionesSelect = document.getElementById('funcionesSelect');
-    if (funcionesSelect.value) {
-        const selectedOption = funcionesSelect.options[funcionesSelect.selectedIndex];
+    // Recopilar funciones seleccionadas (checkboxes)
+    const funcionesCheckboxes = document.querySelectorAll('input[name="funciones"]:checked');
+    
+    funcionesCheckboxes.forEach((checkbox, index) => {
         const funcion = {
-            tipo: funcionesSelect.value,
-            label: selectedOption ? selectedOption.textContent.trim() : funcionesSelect.value,
-            tipoFuncion: selectedOption ? selectedOption.getAttribute('data-type') : ''
+            tipo: checkbox.value,
+            label: checkbox.getAttribute('data-label'),
+            tipoFuncion: checkbox.getAttribute('data-type')
         };
 
         // Para docentes, agregar subespacios y comisiones
         const type = funcion.tipoFuncion;
-        const index = 0;
+        
         if (type === 'docente_primer_año' || type === 'docente_segundo_año' || 
             type === 'docente_tercer_año' || type === 'docente_cuarto_año') {
             
@@ -874,10 +893,19 @@ async function handleFormSubmit(e) {
             const comisionCheckboxes = document.querySelectorAll(
                 `input[name="comision_${index}"]:checked`
             );
-            const comisionIdInputs = document.querySelectorAll(`input[name="comision_id_${index}[]"]`);
             const observacionesTextarea = document.querySelector(`textarea[name="observaciones_${index}"]`);
 
             const comisionValues = Array.from(comisionCheckboxes).map(input => input.value);
+            const comisionIds = [];
+
+            comisionCheckboxes.forEach(cb => {
+                const comisionName = cb.value.replace(/\s+/g, '_');
+                const idInput = document.querySelector(`input[name="comision_id_${index}_${comisionName}"]`);
+                comisionIds.push({
+                    comision: cb.value,
+                    id: idInput?.value.trim() || ''
+                });
+            });
 
             funcion.subespacio = subespacioSelect?.value === 'Otro' 
                 ? document.querySelector(`input[name="subespacio_otro_${index}"]`)?.value
@@ -890,19 +918,16 @@ async function handleFormSubmit(e) {
                 funcion.comision = comisionValues;
             }
 
-            funcion.comisionIds = Array.from(comisionIdInputs).map(input => ({
-                comision: input.dataset.comisionLabel || input.dataset.comision,
-                id: input.value.trim()
-            }));
-            
+            funcion.comisionIds = comisionIds;
             funcion.observaciones = observacionesTextarea?.value;
+            
         } else if (FUNCIONES_CON_ID.has(funcion.tipo)) {
-            const idInput = document.querySelector('input[name="funcion_id_0"]');
+            const idInput = document.querySelector(`input[name="funcion_id_${index}"]`);
             funcion.funcionId = idInput?.value.trim();
         }
 
         data.funciones.push(funcion);
-    }
+    });
 
     // Validar
     const errors = validateForm(data);
@@ -964,6 +989,7 @@ async function handleFormSubmit(e) {
         document.getElementById('dynamicSection').innerHTML = '';
         document.getElementById('dynamicSection').style.display = 'none';
         document.getElementById('otroFuncionContainer').style.display = 'none';
+        updateFuncionesSummary();
 
     } catch (error) {
         document.getElementById('loadingSpinner').style.display = 'none';
@@ -992,9 +1018,15 @@ document.addEventListener('click', (e) => {
 });
 
 // ============================================================
+// CAMBIAR COLOR DEL SIDEBAR SEGÚN SECCIÓN ACTIVA
+// ============================================================
+
+
+// ============================================================
 // SCROLL SPY - Navegación activa en sidebar
 // ============================================================
 function initScrollSpy() {
+    console.log('initScrollSpy iniciado');
     const sections = document.querySelectorAll('.scroll-section');
     const navLinks = document.querySelectorAll('.nav-link');
     const mainContent = document.querySelector('main');
@@ -1046,6 +1078,7 @@ function initScrollSpy() {
             }
         }
 
+        // Actualizar navegación
         navLinks.forEach(link => {
             const linkSection = link.getAttribute('data-section');
             
@@ -1055,6 +1088,8 @@ function initScrollSpy() {
                 link.classList.remove('active');
             }
         });
+
+
     }
 
     // Escuchar scroll en el contenedor real
