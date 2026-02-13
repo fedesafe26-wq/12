@@ -1070,8 +1070,8 @@ function initScrollSpy() {
                 // Añadir active al clickeado
                 link.classList.add('active');
 
-                // Calcular posición con offset
-                const targetPosition = targetSection.offsetTop - 20;
+                // Calcular posición con offset para mostrar el título de la sección
+                const targetPosition = targetSection.offsetTop - 120;
 
                 // Hacer scroll suave
                 mainContent.scrollTo({
