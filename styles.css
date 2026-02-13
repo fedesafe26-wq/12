@@ -544,6 +544,11 @@ body.modal-open {
     gap: 0.25rem;
 }
 
+/* Ocultar el boton de cierre fuera de mobile */
+.mobile-close-btn {
+    display: none;
+}
+
 /* Responsive para sidebar */
 @media (max-width: 1024px) {
     aside {
@@ -620,6 +625,10 @@ body.modal-open {
     
     #sidebarToggle {
         display: block !important;
+    }
+
+    .mobile-close-btn {
+        display: inline-flex;
     }
     
     aside .p-4.border-t {

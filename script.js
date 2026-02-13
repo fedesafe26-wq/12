@@ -999,7 +999,12 @@ function initScrollSpy() {
     const navLinks = document.querySelectorAll('.nav-link');
     const mainContent = document.querySelector('main');
 
-    if (!mainContent || sections.length === 0 || navLinks.length === 0) return;
+    if (sections.length === 0 || navLinks.length === 0) return;
+
+    const isMainScrollable = mainContent
+        && mainContent.scrollHeight > mainContent.clientHeight + 1
+        && getComputedStyle(mainContent).overflowY !== 'visible';
+    const scrollContainer = isMainScrollable ? mainContent : window;
 
     let isScrolling = false;
     let scrollTimeout;
@@ -1007,13 +1012,16 @@ function initScrollSpy() {
     function updateActiveLink() {
         if (isScrolling) return;
 
-        const scrollPosition = mainContent.scrollTop + 200; // Offset para activar antes
+        const scrollTop = isMainScrollable ? mainContent.scrollTop : window.scrollY;
+        const scrollPosition = scrollTop + 200; // Offset para activar antes
 
         let currentSection = '';
         let minDistance = Infinity;
 
         sections.forEach(section => {
-            const sectionTop = section.offsetTop;
+            const sectionTop = isMainScrollable
+                ? section.offsetTop
+                : section.getBoundingClientRect().top + window.scrollY;
             const sectionHeight = section.offsetHeight;
             const sectionId = section.id;
 
@@ -1031,7 +1039,7 @@ function initScrollSpy() {
 
         // Si no hay sección detectada, usar la primera o última según scroll
         if (!currentSection && sections.length > 0) {
-            if (mainContent.scrollTop < 100) {
+            if (scrollTop < 100) {
                 currentSection = sections[0].id;
             } else {
                 currentSection = sections[sections.length - 1].id;
@@ -1049,8 +1057,8 @@ function initScrollSpy() {
         });
     }
 
-    // Escuchar scroll en el main content
-    mainContent.addEventListener('scroll', () => {
+    // Escuchar scroll en el contenedor real
+    scrollContainer.addEventListener('scroll', () => {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(updateActiveLink, 50);
     }, { passive: true });
@@ -1058,9 +1066,10 @@ function initScrollSpy() {
     // Manejar clicks en los links del sidebar
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (!href || !href.startsWith('#')) return;
             e.preventDefault();
-            const targetId = link.getAttribute('data-section');
-            const targetSection = document.getElementById(targetId);
+            const targetSection = document.querySelector(href);
 
             if (targetSection) {
                 isScrolling = true;
@@ -1070,13 +1079,10 @@ function initScrollSpy() {
                 // Añadir active al clickeado
                 link.classList.add('active');
 
-                // Calcular posición con offset para mostrar el título de la sección
-                const targetPosition = targetSection.offsetTop - 120;
-
-                // Hacer scroll suave
-                mainContent.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
+                // Hacer scroll suave usando el contenedor correcto
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
 
                 // Permitir actualización automática después de 1 segundo
@@ -1109,7 +1115,7 @@ function initMobileMenu() {
     
     // Crear botón de cerrar dentro del nav container
     const closeBtn = document.createElement('button');
-    closeBtn.className = 'absolute top-2 right-2 p-2 text-slate-500 hover:text-slate-700 bg-white rounded-full shadow-md z-10';
+    closeBtn.className = 'mobile-close-btn absolute top-2 right-2 p-2 text-slate-500 hover:text-slate-700 bg-white rounded-full shadow-md z-10';
     closeBtn.innerHTML = '<span class="material-icons-outlined">close</span>';
     
     // Toggle del menú
