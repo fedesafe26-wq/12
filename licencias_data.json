@@ -1360,5 +1360,71 @@
     ],
     "timestamp": "2026-02-13T15:16:25.819Z",
     "id": "LIC-1770995789412"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-17",
+    "fechaFin": "2026-02-21",
+    "motivo": "Paternidad",
+    "articulo": "34",
+    "otroFuncion": "",
+    "observacionesGenerales": "No mencionar examen final",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "DC I ATLETISMO",
+        "comision": [
+          "A"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "786321"
+          }
+        ],
+        "observaciones": "Material Disponible en Alumnado"
+      }
+    ],
+    "timestamp": "2026-02-13T17:29:54.344Z",
+    "id": "LIC-1771003797853"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-17",
+    "fechaFin": "2026-02-21",
+    "motivo": "Paternidad",
+    "articulo": "34",
+    "otroFuncion": "",
+    "observacionesGenerales": "!!",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FM I EDUCACIÓN RÍTMICA Y VOCAL",
+        "comision": [
+          "A"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "123"
+          }
+        ],
+        "observaciones": "??"
+      }
+    ],
+    "timestamp": "2026-02-13T17:31:16.348Z",
+    "id": "LIC-1771003880090"
   }
 ]

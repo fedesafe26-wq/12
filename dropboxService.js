@@ -386,11 +386,12 @@ async function generateLocalPDF(licenseData, uniqueTimestamp = null) {
         ];
 
         personalData.forEach(([label, value]) => {
+            const y = doc.y;
             doc.font('Helvetica-Bold')
-               .text(label, 55, doc.y, { continued: true, width: 120 })
+               .text(label, 55, y, { continued: true })
                .font('Helvetica')
                .text(' ' + value);
-            doc.moveDown(0.5);
+            doc.moveDown(0.3);
         });
 
         doc.moveDown(1);
@@ -413,11 +414,12 @@ async function generateLocalPDF(licenseData, uniqueTimestamp = null) {
         ];
 
         ausenciaData.forEach(([label, value]) => {
+            const y = doc.y;
             doc.font('Helvetica-Bold')
-               .text(label, 55, doc.y, { continued: true, width: 120 })
+               .text(label, 55, y, { continued: true })
                .font('Helvetica')
                .text(' ' + value);
-            doc.moveDown(0.5);
+            doc.moveDown(0.3);
         });
 
         doc.moveDown(1);
