@@ -1,190 +1,317 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="light" lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Licencias - Instituto Educativo</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <title>I.S.E.F. -Licencias</title>
+    <link rel="icon" type="image/jpeg" href="882f78e51403fb66a620edda9eb68c16.jpg">
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1258e2",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body { font-family: 'Public Sans', sans-serif; }
+        .scroll-section { scroll-margin-top: 100px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+    </style>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="container">
-        <header class="header">
-            <img class="header-logo" src="882f78e51403fb66a620edda9eb68c16.jpg" alt="I.S.E.F. Santa Fe Prof. Cesar S. Vasquez">
-            <div class="header-text">
-                <h1>Sistema de Registro Licencias 2026</h1>
-                <p class="subtitle">I.S.E.F. Nro 27 Prof. Cesar S. Vasquez</p>
-            </div>
-        </header>
-
-        <main class="main-content">
-            <form id="licenseForm" class="form">
-                <!-- SECCIÓN 1: DATOS PERSONALES -->
-                <section id="personalSection" class="form-section" data-collapsible="true">
-                    <h2 class="section-title collapsible-title" role="button" tabindex="0" aria-expanded="true" aria-controls="personalSectionBody">
-                        Datos Personales
-                        <span class="collapse-indicator">▾</span>
-                    </h2>
-
-                    <div id="personalSectionBody" class="section-body">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="nombre">Nombre *</label>
-                                <input type="text" id="nombre" name="nombre" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="apellido">Apellido *</label>
-                                <input type="text" id="apellido" name="apellido" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="dni">DNI *</label>
-                                <input type="text" id="dni" name="dni" placeholder="Ej: 12345678" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="celular">Número de Celular *</label>
-                                <input type="tel" id="celular" name="celular" placeholder="Ej: 1123456789" required>
-                            </div>
-                        </div>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 min-h-screen">
+    <div class="flex h-screen overflow-hidden">
+        <!-- SIDEBAR -->
+        <aside class="w-80 bg-white dark:bg-slate-900 border-r border-primary/10 flex flex-col shrink-0">
+            <div class="p-6 border-b border-primary/5">
+                <div class="flex items-center gap-3">
+                    <img src="882f78e51403fb66a620edda9eb68c16.jpg" alt="ISEF" class="w-12 h-12 rounded-lg object-cover">
+                    <div class="text-center flex-1">
+                        <h1 class="font-bold text-base leading-tight text-slate-900 dark:text-white">Sistema de Registro</h1>
+                        <p class="text-sm text-primary font-semibold">Licencias 2026</p>
                     </div>
-                </section>
-
-                <!-- SECCIÓN 2: FECHAS DE LICENCIA -->
-                <section id="fechasSection" class="form-section" data-collapsible="true">
-                    <h2 class="section-title collapsible-title" role="button" tabindex="0" aria-expanded="true" aria-controls="fechasSectionBody">
-                        Fechas de Licencia
-                        <span class="collapse-indicator">▾</span>
-                    </h2>
-
-                    <div id="fechasSectionBody" class="section-body">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="fechaInicio">Fecha Inicio Licencia *</label>
-                                <input type="date" id="fechaInicio" name="fechaInicio" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="fechaFin">Fecha Fin Licencia *</label>
-                                <input type="date" id="fechaFin" name="fechaFin" required>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SECCIÓN 3: MOTIVO DE LA AUSENCIA -->
-                <section id="motivoSection" class="form-section" data-collapsible="true">
-                    <h2 class="section-title collapsible-title" role="button" tabindex="0" aria-expanded="true" aria-controls="motivoSectionBody">
-                        Motivo de la Ausencia
-                        <span class="collapse-indicator">▾</span>
-                    </h2>
-
-                    <div id="motivoSectionBody" class="section-body">
-                        <div class="form-row">
-                            <div class="form-group full-width">
-                                <label for="motivo">Motivo *</label>
-                                <textarea id="motivo" name="motivo" rows="3" placeholder="Describa el motivo de la ausencia..." required></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group full-width">
-                                <label for="articulo">Número de Artículo *</label>
-                                <input type="text" id="articulo" name="articulo" placeholder="Ej: Artículo 12" required>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SECCIÓN 4: FUNCIONES DE LAS QUE SE AUSENTARÁ -->
-                <section id="funcionesSection" class="form-section" data-collapsible="true">
-                    <h2 class="section-title collapsible-title" role="button" tabindex="0" aria-expanded="true" aria-controls="funcionesSectionBody">
-                        Funciones de las que se Ausentará
-                        <span class="collapse-indicator">▾</span>
-                    </h2>
-
-                    <div id="funcionesSectionBody" class="section-body">
-                        <div class="form-group full-width">
-                            <select id="funcionesSelect" name="funciones" aria-label="Función" required>
-                                <option value="">Seleccione una función</option>
-                                <option value="docente_primer_año" data-type="docente_primer_año">Docente de primer año Ed. Física</option>
-                                <option value="docente_segundo_año" data-type="docente_segundo_año">Docente de segundo año Ed. Física</option>
-                                <option value="docente_tercer_año" data-type="docente_tercer_año">Docente de tercer año Ed. Física</option>
-                                <option value="docente_cuarto_año" data-type="docente_cuarto_año">Docente de cuarto año Ed. Física</option>
-                                <option value="asistente_escolar" data-type="simple">Asistente escolar</option>
-                                <option value="personal_alumnado" data-type="simple">Personal de Alumnado</option>
-                                <option value="personal_gestion" data-type="simple">Personal de Gestión</option>
-                                <option value="personal_secretaria" data-type="simple">Personal de Secretaría</option>
-                                <option value="personal_biblioteca" data-type="simple">Personal de Biblioteca</option>
-                                <option value="otro_funcion" data-type="simple">Otro</option>
-                            </select>
-                        </div>
-
-                        <div id="otroFuncionContainer" class="form-group full-width" style="display: none;">
-                            <label for="otroFuncion">Por favor especifique:</label>
-                            <input type="text" id="otroFuncion" name="otroFuncion" placeholder="Escriba aquí su función">
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SECCIÓN 5: CAMPOS DINÁMICOS -->
-                <section id="dynamicSection" class="form-section" style="display: none;">
-                    <!-- Aquí se insertan dinámicamente los campos según las funciones seleccionadas -->
-                </section>
-
-                <!-- SECCIÓN 6: OBSERVACIONES GENERALES -->
-                <section class="form-section">
-                    <h2 class="section-title">Observaciones Generales</h2>
-                    
-                    <div class="form-group full-width">
-                        <label for="observacionesGenerales">Observaciones o Aclaraciones (opcional)</label>
-                        <textarea id="observacionesGenerales" name="observacionesGenerales" rows="4" placeholder="Escriba aquí cualquier aclaración o observación..."></textarea>
-                    </div>
-                </section>
-
-                <!-- BOTONES DE ACCIÓN -->
-                <section class="form-section form-actions">
-                    <button type="reset" class="btn btn-secondary">Limpiar Formulario</button>
-                    <button type="submit" class="btn btn-primary">Registrar Licencia</button>
-                </section>
-            </form>
-
-            <!-- MODAL DE CONFIRMACIÓN -->
-            <div id="successModal" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <h2>¡Registrado Exitosamente!</h2>
-                    <p>Los datos de la licencia han sido guardados correctamente.</p>
-                    <button class="btn btn-primary" onclick="closeModal()">Aceptar</button>
                 </div>
             </div>
-
-            <!-- MODAL DE AVISO INICIAL -->
-            <div id="noticeModal" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <h2>Aviso</h2>
-                    <p>Este formulario NO reemplaza la presentación de la documentación en Secretaria (en un plazo de 72 h)</p>
-                    <button id="noticeAcceptBtn" class="btn btn-primary">Aceptar</button>
+            
+            <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="sidebarNav">
+                <div class="relative">
+                    <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#datosPersonales" data-section="datosPersonales">
+                        <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
+                            <span class="material-icons-outlined text-xl">person</span>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">1. Datos Personales</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="relative">
+                    <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#fechasMotivo" data-section="fechasMotivo">
+                        <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
+                            <span class="material-icons-outlined text-xl">calendar_today</span>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">2. Fechas y Motivo</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="relative">
+                    <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#funciones" data-section="funciones">
+                        <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
+                            <span class="material-icons-outlined text-xl">work</span>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">3. Funciones</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="relative">
+                    <a class="nav-link flex items-center gap-3 p-2 group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#observaciones" data-section="observaciones">
+                        <div class="z-10 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary ring-4 ring-white dark:ring-slate-900">
+                            <span class="material-icons-outlined text-xl">description</span>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-sm font-semibold text-slate-700 dark:text-slate-300">4. Observaciones</span>
+                        </div>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="p-4 border-t border-primary/5">
+                <div class="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 border border-amber-200 dark:border-amber-800">
+                    <p class="text-xs font-semibold text-amber-800 dark:text-amber-200">⚠️ Aviso Importante</p>
+                    <p class="text-[11px] text-amber-700 dark:text-amber-300 mt-1 leading-relaxed">Este formulario NO reemplaza la presentación de documentación en Secretaría (plazo de 72 horas)</p>
                 </div>
             </div>
+        </aside>
 
-            <!-- SPINNER DE CARGA -->
-            <div id="loadingSpinner" class="loading-spinner" style="display: none;">
-                <div class="spinner"></div>
-                <p>Guardando datos...</p>
+        <!-- MAIN CONTENT -->
+        <main class="flex-1 overflow-y-auto scroll-smooth bg-background-light dark:bg-background-dark relative">
+            <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-primary/5 px-10 py-4 sticky top-0 z-30">
+                <div class="max-w-5xl mx-auto flex items-center justify-between">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Nueva Solicitud de Licencia</h2>
+                    <p class="text-base text-slate-500 font-medium">I.S.E.F. Nro 27 Prof. Cesar S. Vasquez - Santa Fe Capital</p>
+                </div>
+            </header>
+
+            <div class="max-w-5xl mx-auto px-10 py-12 space-y-16 pb-32">
+                <form id="licenseForm" class="space-y-16">
+                    <!-- SECCIÓN 1: DATOS PERSONALES -->
+                    <section id="datosPersonales" class="scroll-section" data-collapsible="true">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">1</div>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Datos Personales</h3>
+                        </div>
+                        <div id="personalSectionBody" class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/5 p-8">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="nombre">Nombre *</label>
+                                        <input class="block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm" type="text" id="nombre" name="nombre" required />
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="apellido">Apellido *</label>
+                                        <input class="block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm" type="text" id="apellido" name="apellido" required />
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="dni">DNI *</label>
+                                        <input class="block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm" type="text" id="dni" name="dni" placeholder="Ej: 12345678" required />
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="email">Email *</label>
+                                        <input class="block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm" type="email" id="email" name="email" required />
+                                    </div>
+                                    <div class="space-y-2 md:col-span-2">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="celular">Número de Celular *</label>
+                                        <input class="block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm" type="tel" id="celular" name="celular" placeholder="Ej: 1123456789" required />
+                                    </div>
+                                </div>
+                            </div>
+                    </section>
+
+                    <!-- SECCIÓN 2: FECHAS Y MOTIVO -->
+                    <section id="fechasMotivo" class="scroll-section">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">2</div>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Fechas y Motivo de Licencia</h3>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-md border border-primary/10 p-8">
+                            <!-- Fechas de Licencia -->
+                            <div id="fechasSection" data-collapsible="true">
+                                <h4 class="text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-4">Fechas de Licencia</h4>
+                                <div id="fechasSectionBody" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                    <div class="space-y-2">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="fechaInicio">Fecha Inicio Licencia *</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="material-icons-outlined text-slate-400 text-lg">calendar_today</span>
+                                            </div>
+                                            <input class="block w-full pl-10 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm" type="date" id="fechaInicio" name="fechaInicio" required />
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="fechaFin">Fecha Fin Licencia *</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="material-icons-outlined text-slate-400 text-lg">calendar_today</span>
+                                            </div>
+                                            <input class="block w-full pl-10 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm" type="date" id="fechaFin" name="fechaFin" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Motivo de la Ausencia -->
+                            <div id="motivoSection" class="border-t border-slate-200 dark:border-slate-700 pt-8" data-collapsible="true">
+                                <h4 class="text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-4">Motivo de la Ausencia</h4>
+                                <div id="motivoSectionBody" class="space-y-6">
+                                    <div class="space-y-2">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="motivo">Motivo *</label>
+                                        <textarea class="block w-full p-4 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm min-h-[120px]" id="motivo" name="motivo" rows="3" placeholder="Describa el motivo de la ausencia..." required></textarea>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="articulo">Número de Artículo *</label>
+                                        <input class="block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm" type="text" id="articulo" name="articulo" placeholder="Ej: Artículo 12" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN 3: FUNCIONES -->
+                    <section id="funciones" class="scroll-section">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">3</div>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Funciones de las que se Ausentará</h3>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-md border border-primary/10 p-8">
+                            <div id="funcionesSection" data-collapsible="true">
+                                <div id="funcionesSectionBody">
+                                    <div class="space-y-2">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="funcionesSelect">Seleccione su función *</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="material-icons-outlined text-slate-400 text-lg">work</span>
+                                            </div>
+                                            <select class="block w-full pl-10 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm appearance-none" id="funcionesSelect" name="funciones" aria-label="Función" required>
+                                                <option value="">Seleccione una función</option>
+                                                <option value="docente_primer_año" data-type="docente_primer_año">Docente de primer año Ed. Física</option>
+                                                <option value="docente_segundo_año" data-type="docente_segundo_año">Docente de segundo año Ed. Física</option>
+                                                <option value="docente_tercer_año" data-type="docente_tercer_año">Docente de tercer año Ed. Física</option>
+                                                <option value="docente_cuarto_año" data-type="docente_cuarto_año">Docente de cuarto año Ed. Física</option>
+                                                <option value="asistente_escolar" data-type="simple">Asistente escolar</option>
+                                                <option value="personal_alumnado" data-type="simple">Personal de Alumnado</option>
+                                                <option value="personal_gestion" data-type="simple">Personal de Gestión</option>
+                                                <option value="personal_secretaria" data-type="simple">Personal de Secretaría</option>
+                                                <option value="personal_biblioteca" data-type="simple">Personal de Biblioteca</option>
+                                                <option value="otro_funcion" data-type="simple">Otro</option>
+                                            </select>
+                                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                                <span class="material-icons-outlined text-slate-400">expand_more</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="otroFuncionContainer" class="space-y-2 mt-6" style="display: none;">
+                                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="otroFuncion">Por favor especifique:</label>
+                                        <input class="block w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm" type="text" id="otroFuncion" name="otroFuncion" placeholder="Escriba aquí su función" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 4: CAMPOS DINÁMICOS -->
+                        <div id="dynamicSection" class="mt-8" style="display: none;">
+                            <!-- Aquí se insertan dinámicamente los campos según las funciones seleccionadas -->
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN 5: OBSERVACIONES GENERALES -->
+                    <section id="observaciones" class="scroll-section">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">4</div>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Observaciones Generales</h3>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/5 p-8">
+                            <div class="space-y-2">
+                                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="observacionesGenerales">Observaciones o Aclaraciones (opcional)</label>
+                                <textarea class="block w-full p-4 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-sm min-h-[150px]" id="observacionesGenerales" name="observacionesGenerales" rows="4" placeholder="Escriba aquí cualquier aclaración o observación..."></textarea>
+                            </div>
+                        </div>
+                    </section>
+                </form>
+            </div>
+
+            <!-- BOTONES DE ACCIÓN STICKY -->
+            <div class="sticky bottom-0 w-full p-6 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light/90 dark:via-background-dark/90 to-transparent z-40">
+                <div class="max-w-5xl mx-auto flex items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-2xl border border-primary/10">
+                    <button type="reset" form="licenseForm" class="px-6 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl font-semibold transition-all flex items-center gap-2">
+                        <span class="material-icons-outlined text-lg">refresh</span>
+                        Limpiar Formulario
+                    </button>
+                    <button type="submit" form="licenseForm" class="px-10 py-3.5 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold shadow-lg shadow-primary/30 transition-all flex items-center gap-2">
+                        Registrar Licencia
+                        <span class="material-icons-outlined text-lg">send</span>
+                    </button>
+                </div>
             </div>
         </main>
+    </div>
 
-        <footer class="footer">
-            <p><strong>Este formulario NO reemplaza la presentación de la documentación en Secretaria (en un plazo de 72 h)</strong></p>
-            <p>&copy; 2026 Desarrolló HiveTics - Para I.S.E.F. Nro27 Prof. Cesar S. Vasquez</p>
-        </footer>
+    <!-- MODAL DE CONFIRMACIÓN -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="text-center mb-4">
+                <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-icons-outlined text-green-600 dark:text-green-400 text-4xl">check_circle</span>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">¡Registrado Exitosamente!</h2>
+                <p class="text-slate-600 dark:text-slate-400">Los datos de la licencia han sido guardados correctamente.</p>
+            </div>
+            <p id="successDownload" class="download-note text-center mb-6" style="display: none;">
+                <a id="downloadLink" href="#" target="_blank" rel="noopener" class="text-primary hover:text-primary/80 font-semibold underline">Descargar PDF</a>
+            </p>
+            <button class="btn btn-primary w-full" onclick="closeModal()">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE AVISO INICIAL -->
+    <div id="noticeModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="text-center mb-4">
+                <div class="w-16 h-16 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-icons-outlined text-amber-600 dark:text-amber-400 text-4xl">warning</span>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Aviso</h2>
+                <p class="text-slate-600 dark:text-slate-400 px-2">Este formulario NO reemplaza la presentación de documentación en Secretaría<br>(plazo de 72 horas)</p>
+            </div>
+            <button id="noticeAcceptBtn" class="btn btn-primary w-full">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- SPINNER DE CARGA -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+        <p>Guardando datos...</p>
     </div>
 
     <script src="script.js"></script>

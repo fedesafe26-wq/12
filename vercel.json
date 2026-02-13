@@ -27,8 +27,5 @@
       "src": "/(.*)",
       "dest": "index.html"
     }
-  ],
-  "env": {
-    "DROPBOX_ACCESS_TOKEN": "@dropbox_token"
-  }
+  ]
 }

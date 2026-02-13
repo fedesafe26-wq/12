@@ -81,6 +81,14 @@ const COMISIONES = {
     docente_cuarto_año: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'Otro']
 };
 
+const FUNCIONES_CON_ID = new Set([
+    'asistente_escolar',
+    'personal_alumnado',
+    'personal_gestion',
+    'personal_secretaria',
+    'personal_biblioteca'
+]);
+
 // Tipos de funciones
 const TIPOS_FUNCIONES = {
     docente_primer_año: 'docente_primer_año',
@@ -125,6 +133,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener para el formulario
     form.addEventListener('submit', handleFormSubmit);
 
+    // Event listener para limpiar formulario
+    form.addEventListener('reset', () => {
+        setTimeout(() => {
+            const dynamicSection = document.getElementById('dynamicSection');
+            if (dynamicSection) {
+                dynamicSection.innerHTML = '';
+                dynamicSection.style.display = 'none';
+            }
+            
+            const otroContainer = document.getElementById('otroFuncionContainer');
+            if (otroContainer) {
+                otroContainer.style.display = 'none';
+            }
+            
+            updateSectionStates();
+        }, 0);
+    });
+
     form.addEventListener('input', updateSectionStates);
     form.addEventListener('change', updateSectionStates);
 
@@ -156,7 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (fechaFinInput) {
         fechaFinInput.min = today;
-        fechaFinInput.max = maxDate;
 
         fechaFinInput.addEventListener('change', () => {
             const value = fechaFinInput.value;
@@ -166,11 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('No se puede ingresar una licencia con fecha anterior al dia actual.');
                 fechaFinInput.value = '';
                 return;
-            }
-
-            if (value > maxDate) {
-                alert('No se puede ingresar licencias con mas de 9 dias de antelacion desde la fecha en que se ingresa a la app.');
-                fechaFinInput.value = '';
             }
         });
     }
@@ -189,6 +209,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+
+        document.querySelectorAll('.comision-dropdown[open]').forEach((dropdown) => {
+            if (!dropdown.contains(target)) {
+                dropdown.removeAttribute('open');
+            }
+        });
+    });
 });
 
 function setupCollapsibleSections() {
@@ -267,7 +298,10 @@ function isSectionComplete(section) {
             const comisionChecked = dynamicSection.querySelectorAll(
                 'input[type="checkbox"][name^="comision_"]:checked'
             );
-            if (comisionChecked.length === 0) return false;
+            const comisionInputs = dynamicSection.querySelectorAll(
+                'input[type="checkbox"][name^="comision_"]'
+            );
+            if (comisionInputs.length > 0 && comisionChecked.length === 0) return false;
 
             const subespacioSelects = dynamicSection.querySelectorAll(
                 'select[name^="subespacio_"]'
@@ -353,6 +387,8 @@ function handleFuncionChange() {
     if (type === 'docente_primer_año' || type === 'docente_segundo_año' || 
         type === 'docente_tercer_año' || type === 'docente_cuarto_año') {
         createDocenteFields(dynamicSection, value, 0, functionLabel);
+    } else if (FUNCIONES_CON_ID.has(value)) {
+        createFuncionIdField(dynamicSection, value, 0, functionLabel);
     }
     // Para docentes simples y otros, solo agregar observaciones en la última sección
 
@@ -362,6 +398,42 @@ function handleFuncionChange() {
     }
 
     updateSectionStates();
+}
+
+function createFuncionIdField(container, functionType, index, functionLabel) {
+    const fieldset = document.createElement('fieldset');
+    fieldset.className = 'select-group fade-in';
+    fieldset.style.marginTop = '20px';
+
+    const legend = document.createElement('legend');
+    legend.style.fontSize = '1.1em';
+    legend.style.fontWeight = '600';
+    legend.style.color = 'var(--primary-color)';
+    legend.style.marginBottom = '15px';
+    legend.textContent = `ID para: ${functionLabel || functionType}`;
+    fieldset.appendChild(legend);
+
+    const idDiv = document.createElement('div');
+    idDiv.className = 'select-item';
+
+    const idLabel = document.createElement('label');
+    idLabel.htmlFor = `funcion_id_${index}`;
+    idLabel.textContent = 'ID de la función *';
+    idDiv.appendChild(idLabel);
+
+    const idInput = document.createElement('input');
+    idInput.type = 'text';
+    idInput.id = `funcion_id_${index}`;
+    idInput.name = `funcion_id_${index}`;
+    idInput.placeholder = 'Ingrese el ID';
+    idInput.required = true;
+    idInput.inputMode = 'numeric';
+    idInput.pattern = '\\d+';
+    idInput.maxLength = 10;
+    idDiv.appendChild(idInput);
+
+    fieldset.appendChild(idDiv);
+    container.appendChild(fieldset);
 }
 
 // Crear campos para docentes con subespacios y comisiones
@@ -664,9 +736,6 @@ function validateForm(formData) {
         if (formData.fechaFin < today) {
             errors.push('La fecha de fin no puede ser anterior al dia actual');
         }
-        if (formData.fechaFin > maxDate) {
-            errors.push('La fecha de fin no puede superar los 9 dias desde la fecha en que se ingresa a la app');
-        }
     }
     
     if (formData.fechaInicio && formData.fechaFin) {
@@ -741,6 +810,13 @@ function validateForm(formData) {
                 if (!otroInput || !otroInput.value.trim()) {
                     errors.push('Debe especificar la comisión para la función seleccionada');
                 }
+            }
+        } else if (FUNCIONES_CON_ID.has(funcionesSelect.value)) {
+            const idInput = document.querySelector('input[name="funcion_id_0"]');
+            if (!idInput || !idInput.value.trim()) {
+                errors.push('El ID para la función seleccionada es requerido');
+            } else if (!/^\d+$/.test(idInput.value.trim())) {
+                errors.push('El ID para la función seleccionada debe contener solo números');
             }
         }
     }
@@ -820,6 +896,9 @@ async function handleFormSubmit(e) {
             }));
             
             funcion.observaciones = observacionesTextarea?.value;
+        } else if (FUNCIONES_CON_ID.has(funcion.tipo)) {
+            const idInput = document.querySelector('input[name="funcion_id_0"]');
+            funcion.funcionId = idInput?.value.trim();
         }
 
         data.funciones.push(funcion);
@@ -850,6 +929,25 @@ async function handleFormSubmit(e) {
         }
 
         const result = await response.json();
+
+        const downloadContainer = document.getElementById('successDownload');
+        const downloadLink = document.getElementById('downloadLink');
+        const downloadUrl = result?.data?.downloadUrl;
+
+        if (downloadContainer && downloadLink && downloadUrl) {
+            downloadLink.href = downloadUrl;
+            downloadContainer.style.display = 'block';
+
+            const autoLink = document.createElement('a');
+            autoLink.href = downloadUrl;
+            autoLink.download = '';
+            autoLink.rel = 'noopener';
+            document.body.appendChild(autoLink);
+            autoLink.click();
+            autoLink.remove();
+        } else if (downloadContainer) {
+            downloadContainer.style.display = 'none';
+        }
 
         // Mostrar modal de éxito
         document.getElementById('loadingSpinner').style.display = 'none';
@@ -892,3 +990,111 @@ document.addEventListener('click', (e) => {
         closeModal();
     }
 });
+
+// ============================================================
+// SCROLL SPY - Navegación activa en sidebar
+// ============================================================
+function initScrollSpy() {
+    const sections = document.querySelectorAll('.scroll-section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.querySelector('main');
+
+    if (!mainContent || sections.length === 0 || navLinks.length === 0) return;
+
+    let isScrolling = false;
+    let scrollTimeout;
+
+    function updateActiveLink() {
+        if (isScrolling) return;
+
+        const scrollPosition = mainContent.scrollTop + 200; // Offset para activar antes
+
+        let currentSection = '';
+        let minDistance = Infinity;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.id;
+
+            // Calcular distancia al top de la sección
+            const distance = Math.abs(scrollPosition - sectionTop);
+
+            // Si estamos dentro de la sección o muy cerca
+            if (scrollPosition >= sectionTop - 100 && scrollPosition < sectionTop + sectionHeight) {
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    currentSection = sectionId;
+                }
+            }
+        });
+
+        // Si no hay sección detectada, usar la primera o última según scroll
+        if (!currentSection && sections.length > 0) {
+            if (mainContent.scrollTop < 100) {
+                currentSection = sections[0].id;
+            } else {
+                currentSection = sections[sections.length - 1].id;
+            }
+        }
+
+        navLinks.forEach(link => {
+            const linkSection = link.getAttribute('data-section');
+            
+            if (linkSection === currentSection) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    // Escuchar scroll en el main content
+    mainContent.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(updateActiveLink, 50);
+    }, { passive: true });
+
+    // Manejar clicks en los links del sidebar
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('data-section');
+            const targetSection = document.getElementById(targetId);
+
+            if (targetSection) {
+                isScrolling = true;
+
+                // Remover active de todos
+                navLinks.forEach(l => l.classList.remove('active'));
+                // Añadir active al clickeado
+                link.classList.add('active');
+
+                // Calcular posición con offset
+                const targetPosition = targetSection.offsetTop - 20;
+
+                // Hacer scroll suave
+                mainContent.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Permitir actualización automática después de 1 segundo
+                setTimeout(() => {
+                    isScrolling = false;
+                    updateActiveLink();
+                }, 1000);
+            }
+        });
+    });
+
+    // Activar la primera sección al cargar
+    setTimeout(updateActiveLink, 100);
+}
+
+// Inicializar scroll spy cuando el DOM esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollSpy);
+} else {
+    initScrollSpy();
+}

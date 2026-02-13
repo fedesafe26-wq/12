@@ -1,0 +1,1185 @@
+[
+  {
+    "id": "LIC-1676000000000",
+    "timestamp": "2024-02-10T14:30:00.000Z",
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "dni": "12345678",
+    "email": "juan.perez@email.com",
+    "celular": "1123456789",
+    "fechaInicio": "2024-02-12",
+    "fechaFin": "2024-02-20",
+    "motivo": "Enfermedad",
+    "articulo": "Artículo 15",
+    "otroFuncion": "",
+    "observacionesGenerales": "Requiere atención médica",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FM I GIMNASIA",
+        "comision": "A",
+        "observaciones": "Observación específica para la función"
+      }
+    ]
+  },
+  {
+    "id": "LIC-1676100000000",
+    "timestamp": "2024-02-11T09:15:00.000Z",
+    "nombre": "María",
+    "apellido": "González",
+    "dni": "87654321",
+    "email": "maria.gonzalez@email.com",
+    "celular": "1198765432",
+    "fechaInicio": "2024-02-14",
+    "fechaFin": "2024-02-28",
+    "motivo": "Licencia ordinaria",
+    "articulo": "",
+    "otroFuncion": "Personal de Dirección",
+    "observacionesGenerales": "Ausencia prevista",
+    "funciones": [
+      {
+        "tipo": "otro_funcion",
+        "label": "Otro",
+        "tipoFuncion": "simple"
+      }
+    ]
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "12.882.789",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-20",
+    "motivo": "Viaje",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FM I GIMNASIA",
+        "comision": "E",
+        "observaciones": ""
+      },
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "DAC II RUGBY",
+        "comision": "C",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-10T22:17:00.693Z",
+    "id": "LIC-1770761820735"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-20",
+    "motivo": "Bebida",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_tercer_año",
+        "label": "Docente de tercer año Ed. Física",
+        "tipoFuncion": "docente_tercer_año",
+        "subespacio": "FM III RECREACIÓN",
+        "comision": "H",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-10T22:20:16.583Z",
+    "id": "LIC-1770762016616"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-20",
+    "motivo": "Sol",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "DAC II HOCKEY",
+        "comision": "D",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-10T22:22:21.118Z",
+    "id": "LIC-1770762141161"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-20",
+    "motivo": "No se",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FILOSOFÍA",
+        "comision": "B",
+        "observaciones": ""
+      },
+      {
+        "tipo": "docente_natacion",
+        "label": "Docente del Taller de Natación",
+        "tipoFuncion": "docente_simple"
+      }
+    ],
+    "timestamp": "2026-02-10T22:32:08.384Z",
+    "id": "LIC-1770762731838"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-20",
+    "motivo": "No se",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FILOSOFÍA",
+        "comision": "B",
+        "observaciones": ""
+      },
+      {
+        "tipo": "docente_natacion",
+        "label": "Docente del Taller de Natación",
+        "tipoFuncion": "docente_simple"
+      }
+    ],
+    "timestamp": "2026-02-10T22:32:19.048Z",
+    "id": "LIC-1770762741440"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-20",
+    "motivo": "nose",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FILOSOFÍA",
+        "comision": "H",
+        "observaciones": ""
+      },
+      {
+        "tipo": "docente_cuarto_año",
+        "label": "Docente de cuarto año Ed. Física",
+        "tipoFuncion": "docente_cuarto_año",
+        "subespacio": "HISTORIA POLÍTICA Y EDUCATIVA ARGENTINA",
+        "comision": "H",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-10T22:41:43.834Z",
+    "id": "LIC-1770763303918"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-20",
+    "motivo": "No se",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "DC I NATACIÓN",
+        "comision": "J",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-10T22:43:28.430Z",
+    "id": "LIC-1770763410061"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-20",
+    "motivo": "zxcc",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FILOSOFÍA",
+        "comision": "G",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-10T22:56:44.828Z",
+    "id": "LIC-1770764206249"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-20",
+    "motivo": "wera",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FM I EDUCACIÓN FÍSICA INFANTIL",
+        "comision": "H",
+        "observaciones": ""
+      },
+      {
+        "tipo": "docente_natacion",
+        "label": "Docente del Taller de Natación",
+        "tipoFuncion": "docente_simple"
+      }
+    ],
+    "timestamp": "2026-02-10T23:36:57.642Z",
+    "id": "LIC-1770766619179"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-20",
+    "motivo": "fede",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FM I EDUCACIÓN RÍTMICA Y VOCAL",
+        "comision": "C",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T00:28:40.084Z",
+    "id": "LIC-1770769721673"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "12.882.789",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-12",
+    "fechaFin": "2026-02-20",
+    "motivo": "ddd",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_tercer_año",
+        "label": "Docente de tercer año Ed. Física",
+        "tipoFuncion": "docente_tercer_año",
+        "subespacio": "DC III GIMNASIA DEPORTIVA",
+        "comision": "D",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T00:30:34.120Z",
+    "id": "LIC-1770769836403"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "12.882.789",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-01-29",
+    "fechaFin": "2026-02-13",
+    "motivo": "www",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "FAF II FISIOLOGÍA",
+        "comision": "G",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T00:32:35.673Z",
+    "id": "LIC-1770769957683"
+  },
+  {
+    "nombre": "GRACIELA MARIA DEL ROSARIO",
+    "apellido": "SEJAS",
+    "dni": "14830609",
+    "email": "gracielasafe2018@gmail.com",
+    "celular": "1122445577",
+    "fechaInicio": "2026-02-28",
+    "fechaFin": "2026-03-12",
+    "motivo": "www",
+    "articulo": "12",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "DAG I CESTOBALL",
+        "comision": "F",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T00:34:33.143Z",
+    "id": "LIC-1770770075148"
+  },
+  {
+    "nombre": "GRACIELA MARIA DEL ROSARIO",
+    "apellido": "SEJAS",
+    "dni": "14830609",
+    "email": "gracielasafe2018@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-13",
+    "motivo": "www",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "DC I ATLETISMO",
+        "comision": "C",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T00:46:37.521Z",
+    "id": "LIC-1770770799702"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "12.882.789",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-24",
+    "fechaFin": "2026-02-27",
+    "motivo": "ooo",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "DC II ATLETISMO",
+        "comision": "G",
+        "observaciones": ""
+      },
+      {
+        "tipo": "docente_cuarto_año",
+        "label": "Docente de cuarto año Ed. Física",
+        "tipoFuncion": "docente_cuarto_año",
+        "subespacio": "PRFA - ÁREA NO ESCOLAR",
+        "comision": "D",
+        "observaciones": ""
+      },
+      {
+        "tipo": "docente_natacion",
+        "label": "Docente del Taller de Natación",
+        "tipoFuncion": "docente_simple"
+      }
+    ],
+    "timestamp": "2026-02-11T00:47:38.241Z",
+    "id": "LIC-1770770860373"
+  },
+  {
+    "nombre": "GRACIELA MARIA DEL ROSARIO",
+    "apellido": "SEJAS",
+    "dni": "14830609",
+    "email": "gracielasafe2018@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-13",
+    "motivo": "44",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "TEORÍA DEL CURRÍCULO Y DIDÁCTICA",
+        "comision": "H",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T03:19:02.539Z",
+    "id": "LIC-1770779944616"
+  },
+  {
+    "nombre": "GRACIELA MARIA DEL ROSARIO",
+    "apellido": "SEJAS",
+    "dni": "14830609",
+    "email": "gracielasafe2018@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-13",
+    "motivo": "33",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_tercer_año",
+        "label": "Docente de tercer año Ed. Física",
+        "tipoFuncion": "docente_tercer_año",
+        "subespacio": "PRFA - PRÁCTICA DOCENTE",
+        "comision": "F",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T03:22:09.762Z",
+    "id": "LIC-1770780131901"
+  },
+  {
+    "nombre": "Federico",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-13",
+    "fechaFin": "2026-02-26",
+    "motivo": "44",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "DAG I CESTOBALL",
+        "comision": "F",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T03:22:32.945Z",
+    "id": "LIC-1770780154841"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "14830609",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-13",
+    "motivo": "tyuu",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "DAG I VOLEIBOL",
+        "comision": "H",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T12:53:01.228Z",
+    "id": "LIC-1770814381362"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "14830609",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-10",
+    "fechaFin": "2026-02-13",
+    "motivo": "tyu",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "PEDAGOGÍA",
+        "comision": "G",
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T12:56:37.599Z",
+    "id": "LIC-1770814597619"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "14830609",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-12",
+    "fechaFin": "2026-02-13",
+    "motivo": "Dolores",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "DC II NATACIÓN",
+        "comision": [
+          "A",
+          "B",
+          "D"
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T16:40:49.887Z",
+    "id": "LIC-1770828052061"
+  },
+  {
+    "nombre": "Juan de los",
+    "apellido": "Palotes",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-11",
+    "fechaFin": "2026-02-14",
+    "motivo": "Dolores",
+    "articulo": "14 /4-a",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_tercer_año",
+        "label": "Docente de tercer año Ed. Física",
+        "tipoFuncion": "docente_tercer_año",
+        "subespacio": "FM III RECREACIÓN",
+        "comision": [
+          "A",
+          "B",
+          "C"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "174236"
+          },
+          {
+            "comision": "B",
+            "id": "185123"
+          },
+          {
+            "comision": "C",
+            "id": "020145"
+          }
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T17:32:03.425Z",
+    "id": "LIC-1770831124049"
+  },
+  {
+    "nombre": "Juan de los",
+    "apellido": "Palotes",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-13",
+    "fechaFin": "2026-02-14",
+    "motivo": "DOLOR",
+    "articulo": "14 /4-A",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FM I GIMNASIA",
+        "comision": [
+          "B"
+        ],
+        "comisionIds": [
+          {
+            "comision": "B",
+            "id": "174325"
+          }
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T18:31:43.564Z",
+    "id": "LIC-1770834705798"
+  },
+  {
+    "nombre": "Juan de los",
+    "apellido": "Palotes",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-11",
+    "fechaFin": "2026-02-20",
+    "motivo": "dolor",
+    "articulo": "14/a-4",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "FILOSOFÍA",
+        "comision": [
+          "A",
+          "B",
+          "F"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "145236"
+          },
+          {
+            "comision": "B",
+            "id": "236589"
+          },
+          {
+            "comision": "F",
+            "id": "145"
+          }
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T21:34:03.301Z",
+    "id": "LIC-1770845646763"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-19",
+    "fechaFin": "2026-02-20",
+    "motivo": "dolor",
+    "articulo": "14/a-4",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "DAC II RUGBY",
+        "comision": [
+          "J"
+        ],
+        "comisionIds": [
+          {
+            "comision": "J",
+            "id": "45896"
+          }
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-11T21:35:16.702Z",
+    "id": "LIC-1770845720055"
+  },
+  {
+    "nombre": "GRACIELA MARIA DEL ROSARIO",
+    "apellido": "SEJAS",
+    "dni": "14830609",
+    "email": "gracielasafe2018@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-12",
+    "fechaFin": "2026-02-14",
+    "motivo": "viaje",
+    "articulo": "16/s-4",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "asistente_escolar",
+        "label": "Asistente escolar",
+        "tipoFuncion": "simple"
+      }
+    ],
+    "timestamp": "2026-02-11T21:37:43.125Z",
+    "id": "LIC-1770845866609"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@outlook.com",
+    "celular": "3426128809",
+    "fechaInicio": "2026-02-13",
+    "fechaFin": "2026-02-17",
+    "motivo": "matrimonio",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "personal_secretaria",
+        "label": "Personal de Secretaría",
+        "tipoFuncion": "simple"
+      }
+    ],
+    "timestamp": "2026-02-11T21:40:50.474Z",
+    "id": "LIC-1770846053931"
+  },
+  {
+    "nombre": "Juan de los",
+    "apellido": "Palotes",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-14",
+    "fechaFin": "2026-02-19",
+    "motivo": "viaje",
+    "articulo": "14",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "personal_gestion",
+        "label": "Personal de Gestión",
+        "tipoFuncion": "simple"
+      }
+    ],
+    "timestamp": "2026-02-11T21:44:14.135Z",
+    "id": "LIC-1770846257520"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "14830609",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-12",
+    "fechaFin": "2026-02-14",
+    "motivo": "dolor",
+    "articulo": "31",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "DAG II BASQUETBOL",
+        "comision": [
+          "H"
+        ],
+        "comisionIds": [
+          {
+            "comision": "H",
+            "id": "123456"
+          }
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-12T02:32:47.182Z",
+    "id": "LIC-1770863570726"
+  },
+  {
+    "nombre": "Juan de los",
+    "apellido": "Palotes",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-13",
+    "fechaFin": "2026-02-14",
+    "motivo": "fer",
+    "articulo": "67",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "DC II NATACIÓN",
+        "comision": [
+          "A"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "236589"
+          }
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-12T14:30:59.697Z",
+    "id": "LIC-1770906663281"
+  },
+  {
+    "nombre": "Juan de los",
+    "apellido": "Palotes",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-12",
+    "fechaFin": "2026-02-19",
+    "motivo": "you",
+    "articulo": "34",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "asistente_escolar",
+        "label": "Asistente escolar",
+        "tipoFuncion": "simple",
+        "funcionId": "789456"
+      }
+    ],
+    "timestamp": "2026-02-12T14:43:04.686Z",
+    "id": "LIC-1770907388213"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-13",
+    "fechaFin": "2026-02-22",
+    "motivo": "No se",
+    "articulo": "10",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_primer_año",
+        "label": "Docente de primer año Ed. Física",
+        "tipoFuncion": "docente_primer_año",
+        "subespacio": "DC I NATACIÓN",
+        "comision": [
+          "K"
+        ],
+        "comisionIds": [
+          {
+            "comision": "K",
+            "id": "456985"
+          }
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-12T14:48:28.804Z",
+    "id": "LIC-1770907711927"
+  },
+  {
+    "nombre": "Juan de los",
+    "apellido": "Palotes",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-13",
+    "fechaFin": "2026-02-21",
+    "motivo": "No se",
+    "articulo": "33",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_cuarto_año",
+        "label": "Docente de cuarto año Ed. Física",
+        "tipoFuncion": "docente_cuarto_año",
+        "subespacio": "ECO FITNESS NUTRICIÓN",
+        "comision": [
+          "A"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "123963"
+          }
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-12T14:52:39.593Z",
+    "id": "LIC-1770907962875"
+  },
+  {
+    "nombre": "Juan de los",
+    "apellido": "Palotes",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-13",
+    "fechaFin": "2026-02-21",
+    "motivo": "wwww",
+    "articulo": "22",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "personal_secretaria",
+        "label": "Personal de Secretaría",
+        "tipoFuncion": "simple",
+        "funcionId": "111111"
+      }
+    ],
+    "timestamp": "2026-02-12T15:00:04.888Z",
+    "id": "LIC-1770908408330"
+  },
+  {
+    "nombre": "Juan de los",
+    "apellido": "Palotes",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-15",
+    "fechaFin": "2026-02-21",
+    "motivo": "Vijae",
+    "articulo": "33",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "docente_segundo_año",
+        "label": "Docente de segundo año Ed. Física",
+        "tipoFuncion": "docente_segundo_año",
+        "subespacio": "FAF II EDUCACIÓN SANITARIA",
+        "comision": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "123"
+          },
+          {
+            "comision": "B",
+            "id": "1345"
+          },
+          {
+            "comision": "C",
+            "id": "68855"
+          },
+          {
+            "comision": "D",
+            "id": "23254"
+          },
+          {
+            "comision": "E",
+            "id": "321513"
+          },
+          {
+            "comision": "F",
+            "id": "213232"
+          },
+          {
+            "comision": "G",
+            "id": "5888884"
+          },
+          {
+            "comision": "H",
+            "id": "6216212"
+          },
+          {
+            "comision": "I",
+            "id": "6545812"
+          },
+          {
+            "comision": "J",
+            "id": "21615"
+          },
+          {
+            "comision": "K",
+            "id": "2156"
+          },
+          {
+            "comision": "L",
+            "id": "232315"
+          }
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-12T21:00:37.472Z",
+    "id": "LIC-1770930041261"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-14",
+    "fechaFin": "2026-02-21",
+    "motivo": "Viaje",
+    "articulo": "34",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "asistente_escolar",
+        "label": "Asistente escolar",
+        "tipoFuncion": "simple",
+        "funcionId": "123456"
+      }
+    ],
+    "timestamp": "2026-02-13T03:33:09.679Z",
+    "id": "LIC-1770953593395"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-14",
+    "fechaFin": "2026-02-21",
+    "motivo": "yo",
+    "articulo": "34",
+    "otroFuncion": "",
+    "observacionesGenerales": "",
+    "funciones": [
+      {
+        "tipo": "personal_gestion",
+        "label": "Personal de Gestión",
+        "tipoFuncion": "simple",
+        "funcionId": "456321"
+      }
+    ],
+    "timestamp": "2026-02-13T03:39:12.457Z",
+    "id": "LIC-1770953955712"
+  },
+  {
+    "nombre": "Federico Conrado",
+    "apellido": "Adamo",
+    "dni": "31419210",
+    "email": "fedesafe26@gmail.com",
+    "celular": "1122334455",
+    "fechaInicio": "2026-02-14",
+    "fechaFin": "2026-02-21",
+    "motivo": "789",
+    "articulo": "34",
+    "otroFuncion": "",
+    "observacionesGenerales": "111222333",
+    "funciones": [
+      {
+        "tipo": "docente_cuarto_año",
+        "label": "Docente de cuarto año Ed. Física",
+        "tipoFuncion": "docente_cuarto_año",
+        "subespacio": "EDI VIDA EN LA NATURALEZA",
+        "comision": [
+          "A"
+        ],
+        "comisionIds": [
+          {
+            "comision": "A",
+            "id": "123456"
+          }
+        ],
+        "observaciones": ""
+      }
+    ],
+    "timestamp": "2026-02-13T03:52:29.682Z",
+    "id": "LIC-1770954753077"
+  }
+]

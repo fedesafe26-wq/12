@@ -11,25 +11,43 @@ async function testConnection() {
         console.log('\n🔍 Verificando configuración de Dropbox...\n');
 
         // Verificar variables de entorno
-        const accessToken = process.env.DROPBOX_ACCESS_TOKEN;
+        const refreshToken = process.env.DROPBOX_REFRESH_TOKEN;
+        const appKey = process.env.DROPBOX_APP_KEY;
+        const appSecret = process.env.DROPBOX_APP_SECRET;
         const folderPath = process.env.DROPBOX_FOLDER_PATH || '/Licencias Instituto';
 
-        if (!accessToken) {
-            console.error('❌ Error: DROPBOX_ACCESS_TOKEN no está en .env');
+        if (!refreshToken) {
+            console.error('❌ Error: DROPBOX_REFRESH_TOKEN no está en .env');
             console.log('\n💡 Solución:');
             console.log('  1. Abre: https://www.dropbox.com/developers/apps');
             console.log('  2. Crea una aplicación');
-            console.log('  3. Genera un token de acceso');
-            console.log('  4. Agrega a .env: DROPBOX_ACCESS_TOKEN=tu-token');
+            console.log('  3. Genera un refresh token');
+            console.log('  4. Agrega a .env: DROPBOX_REFRESH_TOKEN=tu-refresh-token');
             return;
         }
 
-        console.log('✓ Variable DROPBOX_ACCESS_TOKEN encontrada');
-        console.log(`  Token: ${accessToken.substring(0, 10)}...`);
+        if (!appKey || !appSecret) {
+            console.error('❌ Error: faltan DROPBOX_APP_KEY o DROPBOX_APP_SECRET en .env');
+            console.log('\n💡 Solución:');
+            console.log('  1. Abre: https://www.dropbox.com/developers/apps');
+            console.log('  2. Copia el App key y App secret');
+            console.log('  3. Agrega a .env:');
+            console.log('     DROPBOX_APP_KEY=tu-app-key');
+            console.log('     DROPBOX_APP_SECRET=tu-app-secret');
+            return;
+        }
+
+        console.log('✓ Variable DROPBOX_REFRESH_TOKEN encontrada');
+        console.log(`  Token: ${refreshToken.substring(0, 10)}...`);
+        console.log('✓ Variables DROPBOX_APP_KEY y DROPBOX_APP_SECRET encontradas');
         console.log(`  Carpeta: ${folderPath}`);
 
         // Crear cliente de Dropbox
-        const dropbox = new Dropbox({ accessToken });
+        const dropbox = new Dropbox({
+            refreshToken,
+            clientId: appKey,
+            clientSecret: appSecret
+        });
 
         // Probar autenticación
         console.log('\n🔐 Autenticando con Dropbox...');
@@ -120,9 +138,9 @@ async function testConnection() {
     } catch (error) {
         console.error('\n❌ Error:', error.message);
         console.log('\n💡 Posibles soluciones:');
-        console.log('  1. Verificar que el token sea correcto');
-        console.log('  2. Generar nuevo token en https://www.dropbox.com/developers/apps');
-        console.log('  3. Verificar que el token tenga permisos de files.content.write');
+        console.log('  1. Verificar que el refresh token sea correcto');
+        console.log('  2. Generar nuevo refresh token en https://www.dropbox.com/developers/apps');
+        console.log('  3. Verificar que la app tenga permisos de files.content.write');
         console.log('  4. Verificar conexión a internet');
     }
 }

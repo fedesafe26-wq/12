@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const fs = require('fs');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const app = express();
@@ -18,6 +20,45 @@ app.use(express.static(path.join(__dirname)));
 // Importar servicio de Dropbox
 const dropboxService = require('./dropboxService');
 
+const downloadTokens = new Map();
+const DOWNLOAD_TTL_MS = 30 * 60 * 1000;
+
+function registerDownload(filePath) {
+    if (!filePath) return null;
+    const token = crypto.randomUUID ? crypto.randomUUID() : crypto.randomBytes(16).toString('hex');
+    const expiresAt = Date.now() + DOWNLOAD_TTL_MS;
+
+    downloadTokens.set(token, { filePath, expiresAt });
+    setTimeout(() => {
+        downloadTokens.delete(token);
+    }, DOWNLOAD_TTL_MS).unref();
+
+    return token;
+}
+
+function buildMailTransporter() {
+    const host = process.env.SMTP_HOST;
+    const port = Number(process.env.SMTP_PORT || 587);
+    const secure = String(process.env.SMTP_SECURE || '').toLowerCase() === 'true';
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+
+    if (!host || !user || !pass) {
+        return null;
+    }
+
+    return nodemailer.createTransport({
+        host,
+        port,
+        secure,
+        auth: { user, pass },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 15000
+    });
+}
+
+
 // Ruta para guardar licencia
 app.post('/api/save-license', async (req, res) => {
     try {
@@ -33,11 +74,31 @@ app.post('/api/save-license', async (req, res) => {
         // Guardar los datos (Dropbox + Excel local + JSON)
         const result = await dropboxService.saveLicenseToDropbox(licenseData);
 
+        // Generar PDF para descarga del usuario (usando el mismo timestamp que el Excel)
+        let pdfPath = null;
+        try {
+            pdfPath = await dropboxService.generateLocalPDF(licenseData, result.uniqueTimestamp);
+            console.log('✓ PDF generado para descarga del usuario');
+        } catch (pdfError) {
+            console.error('Error al generar PDF:', pdfError.message);
+            // Si falla el PDF, usamos el Excel como fallback
+            pdfPath = result.localPath;
+        }
+
+        if (pdfPath) {
+            const token = registerDownload(pdfPath);
+            if (token) {
+                result.downloadUrl = `/api/download/${token}`;
+            }
+        }
+
+        const warning = result.warning || null;
+
         res.json({ 
             success: true, 
             message: 'Licencia registrada exitosamente',
             data: result,
-            warning: result.warning || null
+            warning
         });
     } catch (error) {
         console.error('Error en /api/save-license:', error);
@@ -74,6 +135,26 @@ app.post('/api/save-license', async (req, res) => {
     }
 });
 
+app.get('/api/download/:token', (req, res) => {
+    const { token } = req.params;
+    const entry = downloadTokens.get(token);
+    if (!entry) {
+        return res.status(404).json({ error: 'Archivo no disponible' });
+    }
+
+    if (Date.now() > entry.expiresAt) {
+        downloadTokens.delete(token);
+        return res.status(410).json({ error: 'Enlace expirado' });
+    }
+
+    if (!fs.existsSync(entry.filePath)) {
+        downloadTokens.delete(token);
+        return res.status(404).json({ error: 'Archivo no disponible' });
+    }
+
+    return res.download(entry.filePath, path.basename(entry.filePath));
+});
+
 // Ruta de prueba
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', message: 'Servidor funcionando correctamente' });
@@ -81,7 +162,11 @@ app.get('/api/health', (req, res) => {
 
 // Ruta para obtener configuración (para pruebas)
 app.get('/api/config', (req, res) => {
-    const isConfigured = !!process.env.DROPBOX_ACCESS_TOKEN;
+    const isConfigured = !!(
+        process.env.DROPBOX_REFRESH_TOKEN &&
+        process.env.DROPBOX_APP_KEY &&
+        process.env.DROPBOX_APP_SECRET
+    );
     res.json({ 
         dropboxConfigured: isConfigured,
         message: isConfigured ? 'Dropbox está configurado' : 'Dropbox no está configurado. Ver instrucciones en DROPBOX_SETUP.md'

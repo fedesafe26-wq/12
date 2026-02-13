@@ -3,11 +3,6 @@
   "startCommand": "npm start",
   "envVars": [
     {
-      "key": "DROPBOX_ACCESS_TOKEN",
-      "scope": "all",
-      "value": ""
-    },
-    {
       "key": "PORT",
       "scope": "all",
       "value": ""
